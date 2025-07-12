@@ -1,8 +1,8 @@
 package com.poomaster.app;
-import static com.poomaster.app.Constants.*;
+import static com.poomaster.app.Constantes.*;
 
 
-public abstract class Creature {
+public abstract class Criaturas {
     protected String nome;
     protected int vidaMaxima;
     protected int vidaAtual;
@@ -13,7 +13,7 @@ public abstract class Creature {
     protected int percepcao;
     protected int agilidade;
 
-    public Creature(String nome, int forca, int destreza, int constituicao, int inteligencia, int percepcao, int agilidade) {
+    public Criaturas(String nome, int forca, int destreza, int constituicao, int inteligencia, int percepcao, int agilidade) {
         this.nome = nome;
         this.vidaMaxima = constituicao * MULTIPLICADOR_VIDA;
         this.vidaAtual = vidaMaxima;
@@ -49,7 +49,7 @@ public abstract class Creature {
     }
 
     ////////////////////////////// MÉTODO DE ATAQUE
-    public void ataque(Creature alvo) {
+    public void ataque(Criaturas alvo) {
         if (alvo == null) {
             System.out.println(getNome() + " não pode atacar um alvo nulo!");
             return;
@@ -80,7 +80,7 @@ public abstract class Creature {
     }
 
     // Para ataques físicos - pode ser sobrescrito para ataques mágicos
-    protected int calcularDanoAtaque(Creature alvo, boolean critico) {
+    protected int calcularDanoAtaque(Criaturas alvo, boolean critico) {
         int danoBase = calcularDanoBase();
         int bonusArma = calcularBonusArma();
         int defesa = alvo.getConstituicao();
@@ -105,18 +105,18 @@ public abstract class Creature {
     }
 
     // Para ataques físicos - Guerreiros e monstros (sobrescrito para ataques mágicos)
-    protected boolean tentarAcertar(Creature alvo) {
-        int rolagemAtaque = Dice.roll20();
+    protected boolean tentarAcertar(Criaturas alvo) {
+        int rolagemAtaque = Dado.roll20();
         int totalAtaque = rolagemAtaque + getDestreza();
 
-        int rolagemDefesa = Dice.roll20();
+        int rolagemDefesa = Dado.roll20();
         int totalDefesa = rolagemDefesa + alvo.getAgilidade();
 
         return totalAtaque >= totalDefesa;
     }
 
     protected boolean verificarCritico() {
-        return Dice.roll20() == VALOR_CRITICO;
+        return Dado.roll20() == VALOR_CRITICO;
     }
 
     ///////////// METODOS RELACIONADOS A HABILIDADES

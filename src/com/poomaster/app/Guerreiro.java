@@ -1,10 +1,10 @@
 package com.poomaster.app;
-import static com.poomaster.app.Constants.*;
+import static com.poomaster.app.Constantes.*;
 
 public class Guerreiro extends Personagem {
 
     public Guerreiro(String nome) {
-        super(nome, 8, 5, 7, 3, 4, 5);
+        super(nome, 8, 5, 7, 3, 4, 6);
     }
 
     /////////////////////////////////// ATAQUE
@@ -19,7 +19,7 @@ public class Guerreiro extends Personagem {
             somaAtaqueEquip += getMaoEsquerda().getAtaque();
         }
 
-        return Dice.roll(LADOS_DADO_BONUS) * somaAtaqueEquip;
+        return Dado.roll(LADOS_DADO_BONUS_GUERREIRO) * somaAtaqueEquip;
     }
 
     //////////////////////////////// HABILIDADE
@@ -43,18 +43,29 @@ public class Guerreiro extends Personagem {
     /////////////////////// ATRIBUTOS POR NÍVEL
     @Override
     protected void aplicarBonusAtributos() {
-        setForca(getForca() + BONUS_FORCA_NIVEL);
-        setConstituicao(getConstituicao() + BONUS_CONSTITUICAO_NIVEL);
-        setDestreza(getDestreza() + BONUS_DESTREZA_NIVEL);
+        setForca(getForca() + BONUS_FORCA_NIVEL_GUERREIRO);
+        setConstituicao(getConstituicao() + BONUS_CONSTITUICAO_NIVEL_GUERREIRO);
+        setDestreza(getDestreza() + BONUS_DESTREZA_NIVEL_GUERREIRO);
     }
 
     /////////////////////////////// AUXILIARES
     @Override
     protected int calcularDanoRecebido(int danoBase) {
+        int defesaEquipamentos = getDefesaTotalEquipamentos();
+
+        // Mitiga dano com base em √(armadura + constituição), garantindo crescimento desacelerado.
+        double mitigacao = Math.sqrt(defesaEquipamentos * getConstituicao());
+        int dano = danoBase - (int) mitigacao;
+
         if (getBuff() > 0) {
             System.out.println(getNome() + " está em postura defensiva! Dano reduzido pela metade.");
-            return Math.max(danoBase / REDUCAO_DANO_DEFENSIVO, DANO_MINIMO);
+            dano /= REDUCAO_DANO_DEFENSIVO;
         }
-        return danoBase;
+
+        if (mitigacao > 0) {
+            System.out.println(getNome() + " mitigou " + (int) mitigacao + " de dano com armadura.");
+        }
+
+        return Math.max(dano, DANO_MINIMO);
     }
 }

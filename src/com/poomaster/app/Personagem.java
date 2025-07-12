@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.poomaster.app.Constants.BONUS_CAPACIDADE;
-import static com.poomaster.app.Constants.MULTIPLICADOR_VIDA;
+import static com.poomaster.app.Constantes.*;
 
-public abstract class Personagem extends Creature {
+public abstract class Personagem extends Criaturas {
     protected final ArrayList<Item> inventario;
     protected int capacidade;
-    private final Map<String, Equipamento> equipamentos;
+    protected final Map<String, Equipamento> equipamentos;
     protected int nivel;
     protected int experiencia;
     protected int buff;
@@ -113,12 +112,11 @@ public abstract class Personagem extends Creature {
                     inventario.remove(i);
                     System.out.println(item.getNome() + " foi removido do inventário.");
                 }
-                return;
             } else {
                 inventario.remove(i);
                 System.out.println(item.getNome() + " foi removido do inventário.");
-                return;
             }
+            return;
         }
 
         System.out.println("Item '" + nomeItem + "' não encontrado no inventário.");
@@ -201,7 +199,7 @@ public abstract class Personagem extends Creature {
     }
 
     private void verificarSubidaNivel() {
-        int novoNivel = (getExperiencia() / Constants.EXP_POR_NIVEL) + 1;
+        int novoNivel = (getExperiencia() / Constantes.EXP_POR_NIVEL) + 1;
 
         while (getNivel() < novoNivel) {
             subirNivel();
@@ -251,6 +249,18 @@ public abstract class Personagem extends Creature {
 
     protected void atualizarCapacidade() {
         setCapacidade(getForca() + BONUS_CAPACIDADE);
+    }
+
+    protected int getDefesaTotalEquipamentos() {
+        int defesaTotal = 0;
+
+        for (Slots slot : Slots.values()) {
+            Equipamento equipamento = equipamentos.get(slot.getValor());
+            if (equipamento != null) {
+                defesaTotal += equipamento.getDefesa();
+            }
+        }
+        return defesaTotal;
     }
 
     //////////////////////////////////// SETTERS

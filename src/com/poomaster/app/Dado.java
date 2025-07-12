@@ -2,11 +2,7 @@ package com.poomaster.app;
 
 import java.util.Random;
 
-/**
- * Classe utilitária para rolagem de dados.
- * Não deve ser instanciada.
- */
-public abstract class Dice {
+public abstract class Dado {
 
     private static final Random random = new Random();
 
