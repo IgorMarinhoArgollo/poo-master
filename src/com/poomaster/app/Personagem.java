@@ -1,19 +1,29 @@
 package com.poomaster.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Personagem extends Creature {
     protected final ArrayList<Item> inventario;
-
     protected int capacidade;
-    protected Equipamento maoDireita;
-    protected Equipamento maoEsquerda;
-    protected Equipamento armadura;
+    private final Map<String, Equipamento> equipamentos;
+
+    private static final String SLOT_MAO_DIREITA = "mao_direita";
+    private static final String SLOT_MAO_ESQUERDA = "mao_esquerda";
+    private static final String SLOT_ARMADURA = "armadura";
 
     public Personagem(String nome, int forca, int destreza, int constituicao, int inteligencia, int percepcao, int agilidade) {
         super(nome, forca, destreza, constituicao, inteligencia, percepcao, agilidade);
-        this.capacidade = forca + 5;
+        this.capacidade = calcularCapacidade(forca);
         this.inventario = new ArrayList<>();
+        this.equipamentos = new HashMap<>();
+        inicializarSlots();
+
+        // Inicializa os slots vazios
+        this.equipamentos.put("mao_direita", null);
+        this.equipamentos.put("mao_esquerda", null);
+        this.equipamentos.put("armadura", null);
     }
 
     //////////////////////////////////INVENTÁRIO
@@ -90,27 +100,14 @@ public abstract class Personagem extends Creature {
             if (item instanceof Equipamento equip && equip.getNome().equalsIgnoreCase(nomeItem)) {
                 String slot = equip.getSlot();
 
-                switch (slot) {
-                    case "mao_direita":
-                        if (maoDireita != null) desequiparItem("mao_direita");
-                        maoDireita = equip;
-                        break;
-                    case "mao_esquerda":
-                        if (maoEsquerda != null) desequiparItem("mao_esquerda");
-                        maoEsquerda = equip;
-                        break;
-                    case "armadura":
-                        if (armadura != null) desequiparItem("armadura");
-                        armadura = equip;
-                        break;
-                    default:
-                        System.out.println("Slot inválido para equipamento.");
-                        return;
+                if (equipamentos.get(slot) != null) {
+                    desequiparItem(slot);
                 }
 
+                equipamentos.put(slot, equip);
                 equip.setEquipado(true);
                 inventario.remove(i);
-                System.out.println(equip.getNome() + " foi equipado no slot " + slot + ".");
+                System.out.println(equip.getNome() + " foi equipado.");
                 return;
             }
         }
@@ -118,40 +115,25 @@ public abstract class Personagem extends Creature {
     }
 
     public void desequiparItem(String slot) {
-        Equipamento itemDesequipado = null;
-
-        switch (slot) {
-            case "mao_direita":
-                itemDesequipado = maoDireita;
-                maoDireita = null;
-                break;
-            case "mao_esquerda":
-                itemDesequipado = maoEsquerda;
-                maoEsquerda = null;
-                break;
-            case "armadura":
-                itemDesequipado = armadura;
-                armadura = null;
-                break;
-            default:
-                System.out.println("Slot inválido.");
-                return;
-        }
-
+         Equipamento itemDesequipado = equipamentos.get(slot);
         if (itemDesequipado != null) {
             itemDesequipado.setEquipado(false);
+            equipamentos.put(slot, null);
             adicionarItem(itemDesequipado);
-            System.out.println(itemDesequipado.getNome() + " foi desequipado do slot " + slot + ".");
+            System.out.println(itemDesequipado.getNome() + " foi desequipado.");
         } else {
-            System.out.println("Não há item equipado no slot " + slot + ".");
+            System.out.println("Não há item equipado no slot.");
         }
     }
 
+
     public void listarEquipamentos() {
         System.out.println("Equipamentos de " + this.nome + ":");
-        System.out.println("- Mão Direita: " + (maoDireita != null ? maoDireita.getNome() : "Vazio"));
-        System.out.println("- Mão Esquerda: " + (maoEsquerda != null ? maoEsquerda.getNome() : "Vazio"));
-        System.out.println("- Armadura: " + (armadura != null ? armadura.getNome() : "Vazio"));
+        for (Map.Entry<String, Equipamento> entry : equipamentos.entrySet()) {
+            String slot = entry.getKey();
+            Equipamento equip = entry.getValue();
+            System.out.println("- " + formatarNomeSlot(slot) + ": " + (equip != null ? equip.getNome() : "Vazio"));
+        }
     }
 
     // POÇÕES
@@ -176,19 +158,35 @@ public abstract class Personagem extends Creature {
     }
 
     public Equipamento getMaoDireita() {
-        return maoDireita;
+        return equipamentos.get("mao_direita");
     }
 
     public Equipamento getMaoEsquerda() {
-        return maoEsquerda;
+        return equipamentos.get("mao_esquerda");
     }
 
     public Equipamento getArmadura() {
-        return armadura;
+        return equipamentos.get("armadura");
     }
 
     ////////////////////////////////// SETTERS
     public void setCapacidade(int capacidade) {
         this.capacidade = capacidade;
+    }
+
+    ////////////////////////////////AUXILIARES
+    protected int calcularCapacidade(int forca) {
+        return forca + 5;
+    }
+
+    private void inicializarSlots() {
+        equipamentos.put(SLOT_MAO_DIREITA, null);
+        equipamentos.put(SLOT_MAO_ESQUERDA, null);
+        equipamentos.put(SLOT_ARMADURA, null);
+    }
+
+    private String formatarNomeSlot(String slot) {
+        String nomeFormatado = slot.replace("_", " ");
+        return nomeFormatado.substring(0, 1).toUpperCase() + nomeFormatado.substring(1);
     }
 }
