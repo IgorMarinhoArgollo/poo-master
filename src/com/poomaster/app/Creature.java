@@ -14,7 +14,7 @@ public abstract class Creature {
     public Creature(String nome, int forca, int destreza, int constituicao, int inteligencia, int percepcao, int agilidade) {
         this.nome = nome;
         this.vidaMaxima = constituicao * 10;
-        this.vidaAtual = constituicao * 10;
+        this.vidaAtual = vidaMaxima;
         this.forca = forca;
         this.destreza = destreza;
         this.constituicao = constituicao;
@@ -23,86 +23,87 @@ public abstract class Creature {
         this.agilidade = agilidade;
     }
 
+    /////////////////////////////////////GETTERS
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public int getVidaMaxima() {
         return vidaMaxima;
     }
 
-    public void setVidaMaxima(int vidaMaxima) {
-        this.vidaMaxima = constituicao * 15;
-    }
-
     public int getVidaAtual() {
         return vidaAtual;
-    }
-
-    public void setVidaAtual(int vidaAtual) {
-        this.vidaAtual = this.vidaMaxima;
-    }
-
-    public int getForca() {
-        return forca;
-    }
-
-    public void setForca(int forca) {
-        this.forca = forca;
-    }
-
-    public int getDestreza() {
-        return destreza;
-    }
-
-    public void setDestreza(int destreza) {
-        this.destreza = destreza;
-    }
-
-    public int getConstituicao() {
-        return constituicao;
-    }
-
-    public void setConstituicao(int constituicao) {
-        this.constituicao = constituicao;
-    }
-
-    public int getInteligencia() {
-        return inteligencia;
-    }
-
-    public void setInteligencia(int inteligencia) {
-        this.inteligencia = inteligencia;
-    }
-
-    public int getPercepcao() {
-        return percepcao;
-    }
-
-    public void setPercepcao(int percepcao) {
-        this.percepcao = percepcao;
     }
 
     public int getAgilidade() {
         return agilidade;
     }
 
+    public int getForca() {
+        return forca;
+    }
+
+    public int getDestreza() {
+        return destreza;
+    }
+
+    public int getConstituicao() {
+        return constituicao;
+    }
+
+    public int getInteligencia() {
+        return inteligencia;
+    }
+
+    public int getPercepcao() {
+        return percepcao;
+    }
+
+    ///////////////////////////////////////SETTERS
+    public void setVidaMaxima(int vidaMaxima) {
+        this.vidaMaxima = vidaMaxima;
+    }
+
+    public void setVidaAtual(int vidaAtual) {
+        this.vidaAtual = Math.min(Math.max(vidaAtual, 0), getVidaMaxima());
+    }
+
+    public void setForca(int forca) {
+        this.forca = forca;
+    }
+
+    public void setDestreza(int destreza) {
+        this.destreza = destreza;
+    }
+
+    public void setConstituicao(int constituicao) {
+        this.constituicao = constituicao;
+    }
+
+    public void setInteligencia(int inteligencia) {
+        this.inteligencia = inteligencia;
+    }
+
+    public void setPercepcao(int percepcao) {
+        this.percepcao = percepcao;
+    }
+
     public void setAgilidade(int agilidade) {
         this.agilidade = agilidade;
     }
 
-    // métodos genéricos:
+    ////////////////////// MÉTODOS PARA RECEBER DANO
     public void recebeDano(int amount) {
         int danoFinal = calcularDanoRecebido(amount);
-        vidaAtual -= danoFinal;
-        if (vidaAtual < 0) {
-            vidaAtual = 0;
+
+        setVidaAtual(getVidaAtual() - danoFinal);
+
+        System.out.println(nome + " sofreu " + danoFinal + " de dano. Vida atual: " + getVidaAtual() + "/" + getVidaMaxima());
+
+        if (!isAlive()) {
+            System.out.println(nome + " morreu!");
         }
-        System.out.println(nome + " sofreu " + danoFinal + " de dano. Vida atual: " + vidaAtual + "/" + vidaMaxima);
     }
 
     // Para aplicar os modificadores
@@ -110,9 +111,11 @@ public abstract class Creature {
         return danoBase;
     }
 
+    // Verifica se a criatura está morta
     public boolean isAlive() {
         return vidaAtual > 0;
     }
 
+    ///////////////////////////////// MÉTODO DE ATAQUE
     public void ataque(Creature alvo) {}
  }
