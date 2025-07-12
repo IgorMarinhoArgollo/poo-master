@@ -1,4 +1,4 @@
-package com.poomaster.app;
+package com.poomaster.app.itens;
 
 public class Equipamento extends Item {
     private int ataque;

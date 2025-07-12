@@ -1,21 +1,11 @@
-package com.poomaster.app;
+package com.poomaster.app.itens;
 
-public class Consumivel extends Item implements Empilhavel{
-    private int cura;
+public class Moeda extends Item implements Empilhavel {
     private int quantidade;
 
-    public Consumivel(String nome, int valor, int cura, int quantidade) {
+    public Moeda(String nome, int valor, int quantidade) {
         super(nome, valor);
-        this.cura = cura;
         this.quantidade = quantidade;
-    }
-
-    public int getCura() {
-        return cura;
-    }
-
-    public void setCura(int cura) {
-        this.cura = cura;
     }
 
     public int getQuantidade() {
@@ -41,10 +31,9 @@ public class Consumivel extends Item implements Empilhavel{
 
     @Override
     public String toString() {
-        return "Consumivel{" +
+        return "Moeda{" +
                 "nome='" + nome + '\'' +
                 ", valor=" + valor +
-                ", cura=" + cura +
                 ", quantidade=" + quantidade +
                 '}';
     }

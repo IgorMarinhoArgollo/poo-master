@@ -1,4 +1,4 @@
-package com.poomaster.app;
+package com.poomaster.app.itens;
 
 public interface Empilhavel {
     int getQuantidade();

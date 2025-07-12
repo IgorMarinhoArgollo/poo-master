@@ -1,4 +1,4 @@
-package com.poomaster.app;
+package com.poomaster.app.utils;
 
 public class Constantes {
     private Constantes() {} // impede instanciação

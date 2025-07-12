@@ -1,4 +1,4 @@
-package com.poomaster.app;
+package com.poomaster.app.itens;
 
 public abstract class Item {
     protected String nome;

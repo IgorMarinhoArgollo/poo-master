@@ -1,8 +1,13 @@
-package com.poomaster.app;
+package com.poomaster.app.criaturas;
 
-import static com.poomaster.app.Constantes.*;
+import com.poomaster.app.itens.Equipamento;
+import com.poomaster.app.itens.Item;
+import com.poomaster.app.itens.Slots;
+import com.poomaster.app.utils.Dado;
 
-public class Mago extends Personagem{
+import static com.poomaster.app.utils.Constantes.*;
+
+public class Mago extends Personagem {
     public Mago(String nome) {
         super(nome, 3, 4, 6, 8, 7, 5);
     }

@@ -1,5 +1,7 @@
-package com.poomaster.app;
-import static com.poomaster.app.Constantes.*;
+package com.poomaster.app.criaturas;
+import com.poomaster.app.utils.Dado;
+
+import static com.poomaster.app.utils.Constantes.*;
 
 
 public abstract class Criaturas {

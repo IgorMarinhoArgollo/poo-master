@@ -1,4 +1,4 @@
-package com.poomaster.app;
+package com.poomaster.app.itens;
 
 public enum Slots {
     MAO_DIREITA("mao_direita", "Mão Direita"),

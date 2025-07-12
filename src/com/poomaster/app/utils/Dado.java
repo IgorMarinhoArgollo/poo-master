@@ -1,4 +1,4 @@
-package com.poomaster.app;
+package com.poomaster.app.utils;
 
 import java.util.Random;
 

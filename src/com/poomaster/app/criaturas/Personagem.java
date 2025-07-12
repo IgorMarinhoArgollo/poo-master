@@ -1,10 +1,13 @@
-package com.poomaster.app;
+package com.poomaster.app.criaturas;
+
+import com.poomaster.app.itens.*;
+import com.poomaster.app.utils.Constantes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.poomaster.app.Constantes.*;
+import static com.poomaster.app.utils.Constantes.*;
 
 public abstract class Personagem extends Criaturas {
     protected final ArrayList<Item> inventario;
