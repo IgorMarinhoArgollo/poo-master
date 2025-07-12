@@ -4,17 +4,61 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.poomaster.app.Constants.BONUS_CAPACIDADE;
+import static com.poomaster.app.Constants.MULTIPLICADOR_VIDA;
+
 public abstract class Personagem extends Creature {
     protected final ArrayList<Item> inventario;
     protected int capacidade;
     private final Map<String, Equipamento> equipamentos;
+    protected int nivel;
+    protected int experiencia;
+    protected int buff;
 
     public Personagem(String nome, int forca, int destreza, int constituicao, int inteligencia, int percepcao, int agilidade) {
         super(nome, forca, destreza, constituicao, inteligencia, percepcao, agilidade);
         this.capacidade = calcularCapacidade(forca);
         this.inventario = new ArrayList<>();
         this.equipamentos = new HashMap<>();
+        this.nivel = 1;
+        this.experiencia = 0;
+        this.buff = 0;
         inicializarSlots();
+    }
+
+    //////////////////////////////////// EXPERIÊNCIA E NÍVEL
+    public void ganharExperiencia(int quantidade) {
+        if (quantidade < 0) {
+            throw new IllegalArgumentException("Quantidade de experiência não pode ser negativa");
+        }
+
+        setExperiencia(getExperiencia() + quantidade);
+        System.out.println(getNome() + " ganhou " + quantidade + " de experiência. Total: " + getExperiencia());
+
+        verificarSubidaNivel();
+    }
+
+    private void subirNivel() {
+        setNivel(getNivel() + 1);
+        aplicarBonusAtributos();
+        atualizarVidaMaxima();
+        atualizarCapacidade();
+        System.out.println(getNome() + " subiu para o nível " + getNivel() + "!");
+    }
+
+    // Método sobrescrito pelas subclasses (Guerreiro, Mago, etc)
+    protected abstract void aplicarBonusAtributos();
+
+    //////////////////////////////////// BUFF
+    protected void consumirBuffSeAtivo() {
+        if (buff > 0) {
+            buff--;
+            if (buff == 0) {
+                System.out.println(getNome() + " não está mais com efeito ativo.");
+            } else {
+                System.out.println(getNome() + " ainda tem efeito ativo por " + buff + " turno(s).");
+            }
+        }
     }
 
     //////////////////////////////////INVENTÁRIO
@@ -80,7 +124,6 @@ public abstract class Personagem extends Creature {
         System.out.println("Item '" + nomeItem + "' não encontrado no inventário.");
     }
 
-
     public void listarInventario() {
         System.out.println("Inventário de " + this.nome + ":");
         if (inventario.isEmpty()) {
@@ -92,7 +135,7 @@ public abstract class Personagem extends Creature {
         }
     }
 
-    /////////////////////////////////EQUIPAMENTO
+    /////////////////////////////// EQUIPAMENTO
     public void equiparItem(String nomeItem) {
         for (int i = 0; i < inventario.size(); i++) {
             Item item = inventario.get(i);
@@ -125,7 +168,6 @@ public abstract class Personagem extends Creature {
         }
     }
 
-
     public void listarEquipamentos() {
         System.out.println("Equipamentos de " + this.nome + ":");
         for (Slots slot : Slots.values()) {
@@ -136,12 +178,12 @@ public abstract class Personagem extends Creature {
         }
     }
 
-    // POÇÕES E SEUS AUXILIARES
+    ////////////////////////////////////// POÇÕES
     public boolean usarPocao(String nomePocao) {
         Consumivel pocao = buscarPocaoNoInventario(nomePocao);
 
         if (pocao == null) {
-            System.out.println(this.nome + " não possui " + nomePocao + " no inventário.");
+            System.out.println(getNome() + " não possui " + nomePocao + " no inventário.");
             return false;
         }
 
@@ -149,6 +191,21 @@ public abstract class Personagem extends Creature {
         removerItem(pocao.getNome(), 1);
 
         return true;
+    }
+
+    ////////////////////////////////// AUXILIARES
+    private void inicializarSlots() {
+        for (Slots slot : Slots.values()) {
+            equipamentos.put(slot.getValor(), null);
+        }
+    }
+
+    private void verificarSubidaNivel() {
+        int novoNivel = (getExperiencia() / Constants.EXP_POR_NIVEL) + 1;
+
+        while (getNivel() < novoNivel) {
+            subirNivel();
+        }
     }
 
     private Consumivel buscarPocaoNoInventario(String nomePocao) {
@@ -171,44 +228,62 @@ public abstract class Personagem extends Creature {
                 "Vida atual: " + vidaAtual + "/" + vidaMaxima);
     }
 
-    //////////////////////////////////// GETTERS
-    public int getCapacidade() {
-        return capacidade;
-    }
-
-    public Equipamento getMaoDireita() {
-        return equipamentos.get(Slots.MAO_DIREITA.getValor());
-    }
-
-    public Equipamento getMaoEsquerda() {
-        return equipamentos.get(Slots.MAO_ESQUERDA.getValor());
-    }
-
-    public Equipamento getArmadura() {
-        return equipamentos.get(Slots.ARMADURA.getValor());
-    }
-
-    ////////////////////////////////// AUXILIARES
-    private void inicializarSlots() {
-        for (Slots slot : Slots.values()) {
-            equipamentos.put(slot.getValor(), null);
-        }
-    }
-
-    public void setCapacidade(int capacidade) {
-        this.capacidade = capacidade;
-    }
-
     protected int calcularCapacidade(int forca) {
         return forca + 5;
     }
 
-    private String formatarNomeSlot(String slot) {
-        for (Slots s : Slots.values()) {
-            if (s.getValor().equals(slot)) {
-                return s.getNomeFormatado();
-            }
-        }
-        return "Slot não encontrado";
+    protected Equipamento getMaoDireita() {
+        return equipamentos.get(Slots.MAO_DIREITA.getValor());
+    }
+
+    protected Equipamento getMaoEsquerda() {
+        return equipamentos.get(Slots.MAO_ESQUERDA.getValor());
+    }
+
+    protected Equipamento getArmadura() {
+        return equipamentos.get(Slots.ARMADURA.getValor());
+    }
+
+    protected void atualizarVidaMaxima() {
+        setVidaMaxima(getConstituicao() * MULTIPLICADOR_VIDA);
+        setVidaAtual(getVidaMaxima());
+    }
+
+    protected void atualizarCapacidade() {
+        setCapacidade(getForca() + BONUS_CAPACIDADE);
+    }
+
+    //////////////////////////////////// SETTERS
+    protected void setBuff(int buff) {
+        this.buff = buff;
+    }
+
+    protected void setCapacidade(int capacidade) {
+        this.capacidade = capacidade;
+    }
+
+    protected void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    protected void setExperiencia(int experiencia) {
+        this.experiencia = experiencia;
+    }
+
+    //////////////////////////////////// GETTERS
+    protected int getCapacidade() {
+        return capacidade;
+    }
+
+    protected int getBuff() {
+        return buff;
+    }
+
+    protected int getNivel() {
+        return nivel;
+    }
+
+    protected int getExperiencia() {
+        return experiencia;
     }
 }
