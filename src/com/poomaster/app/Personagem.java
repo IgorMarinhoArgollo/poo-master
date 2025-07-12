@@ -16,20 +16,20 @@ public abstract class Personagem extends Creature {
         this.inventario = new ArrayList<>();
     }
 
-    // INVENTÁRIO
+    //////////////////////////////////INVENTÁRIO
+    /// // Itens equipados não são contabilizados no inventário
     public void adicionarItem(Item item) {
         if (item.isEmpilhavel()) {
             for (Item i : inventario) {
-                if (i.getClass() == item.getClass() && i.getNome().equalsIgnoreCase(item.getNome())) {
-                    if (item instanceof Moeda m && i instanceof Moeda im) {
-                        im.aumentarQuantidade(m.getQuantidade());
-                        System.out.println(m.getNome() + " agora tem " + im.getQuantidade() + " no inventário.");
-                        return;
-                    } else if (item instanceof Consumivel c && i instanceof Consumivel ic) {
-                        ic.aumentarQuantidade(c.getQuantidade());
-                        System.out.println(c.getNome() + " agora tem " + ic.getQuantidade() + " no inventário.");
-                        return;
-                    }
+                if (i.getNome().equalsIgnoreCase(item.getNome()) && i.isEmpilhavel()) {
+                    // Criamos a interface para simplificar esse método, permitindo usar o empilhavel no lugar das instâncias específicas
+                    Empilhavel empilhavelExistente = (Empilhavel) i;
+                    Empilhavel empilhavelNovo = (Empilhavel) item;
+
+                    empilhavelExistente.aumentarQuantidade(empilhavelNovo.getQuantidade());
+                    System.out.println("Agora tem " + empilhavelExistente.getQuantidade() +
+                            " " + i.getNome() + " no inventário.");
+                    return;
                 }
             }
         }
@@ -45,39 +45,37 @@ public abstract class Personagem extends Creature {
     public void removerItem(String nomeItem, int quantidade) {
         for (int i = 0; i < inventario.size(); i++) {
             Item item = inventario.get(i);
-            if (item.getNome().equalsIgnoreCase(nomeItem)) {
-                if (item.isEmpilhavel()) {
-                    if (item instanceof Consumivel c) {
-                        if (c.getQuantidade() > quantidade) {
-                            c.diminuirQuantidade(quantidade);
-                            System.out.println("Usou " + quantidade + " de " + c.getNome() + ". Restam " + c.getQuantidade());
-                        } else {
-                            inventario.remove(i);
-                            System.out.println(c.getNome() + " foi removido do inventário.");
-                        }
-                    } else if (item instanceof Moeda m) {
-                        if (m.getQuantidade() > quantidade) {
-                            m.diminuirQuantidade(quantidade);
-                            System.out.println("Usou " + quantidade + " de " + m.getNome() + ". Restam " + m.getQuantidade());
-                        } else {
-                            inventario.remove(i);
-                            System.out.println(m.getNome() + " foi removido do inventário.");
-                        }
-                    }
+            if (!item.getNome().equalsIgnoreCase(nomeItem)) continue;
+
+            if (item.isEmpilhavel()) {
+                // Criamos a interface para simplificar esse método, permitindo usar o empilhavel no lugar das instâncias específicas
+                Empilhavel empilhavel = (Empilhavel) item;
+                int atual = empilhavel.getQuantidade();
+
+                if (atual > quantidade) {
+                    empilhavel.diminuirQuantidade(quantidade);
+                    System.out.println("Usou " + quantidade + " de " + item.getNome() +
+                            ". Restam " + empilhavel.getQuantidade());
                 } else {
                     inventario.remove(i);
                     System.out.println(item.getNome() + " foi removido do inventário.");
                 }
                 return;
+            } else {
+                inventario.remove(i);
+                System.out.println(item.getNome() + " foi removido do inventário.");
+                return;
             }
         }
-        System.out.println("Item " + nomeItem + " não encontrado no inventário.");
+
+        System.out.println("Item '" + nomeItem + "' não encontrado no inventário.");
     }
+
 
     public void listarInventario() {
         System.out.println("Inventário de " + this.nome + ":");
         if (inventario.isEmpty()) {
-            System.out.println("- Vazio");
+            System.out.println("-");
         } else {
             for (Item item : inventario) {
                 System.out.println("- " + item);
@@ -85,7 +83,7 @@ public abstract class Personagem extends Creature {
         }
     }
 
-    // EQUIPAMENTO
+    /////////////////////////////////EQUIPAMENTO
     public void equiparItem(String nomeItem) {
         for (int i = 0; i < inventario.size(); i++) {
             Item item = inventario.get(i);
@@ -172,7 +170,7 @@ public abstract class Personagem extends Creature {
         System.out.println(this.nome + " não tem nenhuma poção para usar.");
     }
 
-    // Getters
+    //////////////////////////////////// GETTERS
     public int getCapacidade() {
         return capacidade;
     }
@@ -189,9 +187,8 @@ public abstract class Personagem extends Creature {
         return armadura;
     }
 
-    // Setters
+    ////////////////////////////////// SETTERS
     public void setCapacidade(int capacidade) {
         this.capacidade = capacidade;
     }
-
 }

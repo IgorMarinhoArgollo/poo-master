@@ -60,7 +60,7 @@ public abstract class Creature {
         return percepcao;
     }
 
-    ///////////////////////////////////////SETTERS
+    ///////////////////////////////////////SETTERS (usados ao subir de nível)
     public void setVidaMaxima(int vidaMaxima) {
         this.vidaMaxima = vidaMaxima;
     }

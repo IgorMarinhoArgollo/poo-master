@@ -1,6 +1,6 @@
 package com.poomaster.app;
 
-public class Consumivel extends Item {
+public class Consumivel extends Item implements Empilhavel{
     private int cura;
     private int quantidade;
 

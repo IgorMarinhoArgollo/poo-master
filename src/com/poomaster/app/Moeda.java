@@ -1,6 +1,6 @@
 package com.poomaster.app;
 
-public class Moeda extends Item {
+public class Moeda extends Item implements Empilhavel{
     private int quantidade;
 
     public Moeda(String nome, int valor, int quantidade) {
