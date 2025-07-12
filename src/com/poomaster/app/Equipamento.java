@@ -11,8 +11,14 @@ public class Equipamento extends Item {
         this.ataque = ataque;
         this.defesa = defesa;
         this.equipado = false;
+
+        if (!Slots.isValido(slot)) {
+            throw new IllegalArgumentException("Slot inválido: " + slot +
+                    ". Slots válidos: " + java.util.Arrays.toString(Slots.values()));
+        }
         this.slot = slot;
     }
+
 
     public int getAtaque() {
         return ataque;

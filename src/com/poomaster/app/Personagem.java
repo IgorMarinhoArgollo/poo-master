@@ -9,21 +9,12 @@ public abstract class Personagem extends Creature {
     protected int capacidade;
     private final Map<String, Equipamento> equipamentos;
 
-    private static final String SLOT_MAO_DIREITA = "mao_direita";
-    private static final String SLOT_MAO_ESQUERDA = "mao_esquerda";
-    private static final String SLOT_ARMADURA = "armadura";
-
     public Personagem(String nome, int forca, int destreza, int constituicao, int inteligencia, int percepcao, int agilidade) {
         super(nome, forca, destreza, constituicao, inteligencia, percepcao, agilidade);
         this.capacidade = calcularCapacidade(forca);
         this.inventario = new ArrayList<>();
         this.equipamentos = new HashMap<>();
         inicializarSlots();
-
-        // Inicializa os slots vazios
-        this.equipamentos.put("mao_direita", null);
-        this.equipamentos.put("mao_esquerda", null);
-        this.equipamentos.put("armadura", null);
     }
 
     //////////////////////////////////INVENTÁRIO
@@ -44,7 +35,7 @@ public abstract class Personagem extends Creature {
             }
         }
 
-        if (inventario.size() < capacidade) {
+        if (inventario.size() < getCapacidade()) {
             inventario.add(item);
             System.out.println(item.getNome() + " foi adicionado ao inventário.");
         } else {
@@ -53,6 +44,14 @@ public abstract class Personagem extends Creature {
     }
 
     public void removerItem(String nomeItem, int quantidade) {
+        if (nomeItem == null || nomeItem.trim().isEmpty()) {
+            System.out.println("Nome do item não pode ser nulo ou vazio.");
+            return;
+        }
+        if (quantidade <= 0) {
+            System.out.println("Quantidade deve ser maior que zero.");
+            return;
+        }
         for (int i = 0; i < inventario.size(); i++) {
             Item item = inventario.get(i);
             if (!item.getNome().equalsIgnoreCase(nomeItem)) continue;
@@ -129,27 +128,47 @@ public abstract class Personagem extends Creature {
 
     public void listarEquipamentos() {
         System.out.println("Equipamentos de " + this.nome + ":");
-        for (Map.Entry<String, Equipamento> entry : equipamentos.entrySet()) {
-            String slot = entry.getKey();
-            Equipamento equip = entry.getValue();
-            System.out.println("- " + formatarNomeSlot(slot) + ": " + (equip != null ? equip.getNome() : "Vazio"));
+        for (Slots slot : Slots.values()) {
+            String slotValor = slot.getValor();
+            Equipamento equip = equipamentos.get(slotValor);
+            System.out.println("- " + slot.getNomeFormatado() + ": " +
+                    (equip != null ? equip.getNome() : "Vazio"));
         }
     }
 
-    // POÇÕES
-    public void usarPocao() {
+    // POÇÕES E SEUS AUXILIARES
+    public boolean usarPocao(String nomePocao) {
+        Consumivel pocao = buscarPocaoNoInventario(nomePocao);
+
+        if (pocao == null) {
+            System.out.println(this.nome + " não possui " + nomePocao + " no inventário.");
+            return false;
+        }
+
+        aplicarEfeitoCura(pocao);
+        removerItem(pocao.getNome(), 1);
+
+        return true;
+    }
+
+    private Consumivel buscarPocaoNoInventario(String nomePocao) {
         for (Item item : inventario) {
-            if (item instanceof Consumivel c && c.getCura() > 0) {
-                this.vidaAtual += c.getCura();
-                if (this.vidaAtual > this.vidaMaxima) {
-                    this.vidaAtual = this.vidaMaxima;
-                }
-                System.out.println(this.nome + " usou " + c.getNome() + " e curou " + c.getCura() + " de vida!");
-                removerItem(c.getNome(), 1);
-                return;
+            if (item instanceof Consumivel consumivel &&
+                    consumivel.getNome().equalsIgnoreCase(nomePocao) &&
+                    consumivel.getCura() > 0) {
+                return consumivel;
             }
         }
-        System.out.println(this.nome + " não tem nenhuma poção para usar.");
+        return null;
+    }
+
+    private void aplicarEfeitoCura(Consumivel pocao) {
+        int curaAplicada = Math.min(pocao.getCura(), vidaMaxima - vidaAtual);
+        this.vidaAtual += curaAplicada;
+
+        System.out.println(this.nome + " usou " + pocao.getNome() +
+                " e curou " + curaAplicada + " de vida! " +
+                "Vida atual: " + vidaAtual + "/" + vidaMaxima);
     }
 
     //////////////////////////////////// GETTERS
@@ -158,35 +177,38 @@ public abstract class Personagem extends Creature {
     }
 
     public Equipamento getMaoDireita() {
-        return equipamentos.get("mao_direita");
+        return equipamentos.get(Slots.MAO_DIREITA.getValor());
     }
 
     public Equipamento getMaoEsquerda() {
-        return equipamentos.get("mao_esquerda");
+        return equipamentos.get(Slots.MAO_ESQUERDA.getValor());
     }
 
     public Equipamento getArmadura() {
-        return equipamentos.get("armadura");
+        return equipamentos.get(Slots.ARMADURA.getValor());
     }
 
-    ////////////////////////////////// SETTERS
+    ////////////////////////////////// AUXILIARES
+    private void inicializarSlots() {
+        for (Slots slot : Slots.values()) {
+            equipamentos.put(slot.getValor(), null);
+        }
+    }
+
     public void setCapacidade(int capacidade) {
         this.capacidade = capacidade;
     }
 
-    ////////////////////////////////AUXILIARES
     protected int calcularCapacidade(int forca) {
         return forca + 5;
     }
 
-    private void inicializarSlots() {
-        equipamentos.put(SLOT_MAO_DIREITA, null);
-        equipamentos.put(SLOT_MAO_ESQUERDA, null);
-        equipamentos.put(SLOT_ARMADURA, null);
-    }
-
     private String formatarNomeSlot(String slot) {
-        String nomeFormatado = slot.replace("_", " ");
-        return nomeFormatado.substring(0, 1).toUpperCase() + nomeFormatado.substring(1);
+        for (Slots s : Slots.values()) {
+            if (s.getValor().equals(slot)) {
+                return s.getNomeFormatado();
+            }
+        }
+        return "Slot não encontrado";
     }
 }
