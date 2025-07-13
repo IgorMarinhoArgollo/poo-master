@@ -4,10 +4,13 @@ import com.poomaster.app.criaturas.Criaturas;
 import com.poomaster.app.criaturas.Guerreiro;
 import com.poomaster.app.criaturas.Mago;
 import com.poomaster.app.itens.Equipamento;
+import com.poomaster.app.itens.Item;
 import com.poomaster.app.itens.Moeda;
 import com.poomaster.app.itens.Consumivel;
 import com.poomaster.app.itens.Slots;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -121,6 +124,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String linha;
 
+        List<Guerreiro> guerreiros = new ArrayList<>();
+        List<Mago> magos = new ArrayList<>();
+        List<Criaturas> inimigos = new ArrayList<>();
+        List<Item> itens = new ArrayList<>();
+
         System.out.println("Digite comandos (digite 'exit' para sair):");
         while (true) {
             linha = scanner.nextLine();
@@ -128,9 +136,63 @@ public class Main {
                 break;
             }
 
-            System.out.println("Você digitou: " + linha);
+            switch (linha.toLowerCase()) {
+               case "criar guerreiro":
+                    System.out.print("Insira o nome do Guerreiro: ");
+                    String nomeGuerreiro = scanner.nextLine();
+                    Guerreiro novoGuerreiro = new Guerreiro(nomeGuerreiro);
+                    guerreiros.add(novoGuerreiro);
+                    System.out.println("Guerreiro " + nomeGuerreiro + " criado!");
+                    System.out.println(novoGuerreiro + " \n");
+                    break;
+                case "criar mago":
+                    System.out.print("Insira o nome do mago: ");
+                    String nomeMago = scanner.nextLine();
+                    Mago novoMago = new Mago(nomeMago);
+                    magos.add(novoMago);
+                    System.out.println("Mago " + nomeMago + " criado!");
+                    System.out.println(novoMago + " \n");
+                    break;
+                  case "criar inimigo":
+                    System.out.print("Insira o nome do inimigo: ");
+                    String nomeCriatura = scanner.nextLine();
+
+                    int forca = lerInteiroPositivo(scanner, "Força: ");
+                    int destreza = lerInteiroPositivo(scanner, "Destreza: ");
+                    int constituicao = lerInteiroPositivo(scanner, "Constituição: ");
+                    int inteligencia = lerInteiroPositivo(scanner, "Inteligência: ");
+                    int percepcao = lerInteiroPositivo(scanner, "Percepção: ");
+                    int agilidade = lerInteiroPositivo(scanner, "Agilidade: ");
+
+                    Criaturas novaCriatura = new Criaturas(nomeCriatura, forca, destreza, constituicao, inteligencia, percepcao, agilidade) {};
+                    inimigos.add(novaCriatura);
+                    System.out.println(nomeCriatura + " criado!");
+                    System.out.println(novaCriatura + " \n");
+                    break;
+                default:
+                    System.out.println("Comando não reconhecido.");
+                    break;
+            }
         }
         scanner.close();
         System.out.println("Programa encerrado.");
+    }
+
+    private static int lerInteiroPositivo(Scanner scanner, String mensagem) {
+        int valor;
+        while (true) {
+            System.out.print(mensagem);
+            try {
+                valor = Integer.parseInt(scanner.nextLine());
+                if (valor > 0) {
+                    break;
+                } else {
+                    System.out.println("Digite um número inteiro positivo.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número inteiro positivo.");
+            }
+        }
+        return valor;
     }
 }
