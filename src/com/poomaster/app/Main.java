@@ -49,6 +49,15 @@ public class Main {
         thorin.listarInventario();
         merlin.listarInventario();
 
+        // Aumenta duas moeda de Thorin e diminui uma de Merlin
+        moedasGuerreiro.aumentarQuantidade(2);
+        // Removendo duas moeda de Merlin
+        moedasMago.diminuirQuantidade(2);
+
+        // Alterando quantidade de poções
+        pocaoPequena.diminuirQuantidade(1); // Reduz uma poção de Thorin
+        pocaoMedia.aumentarQuantidade(4);
+
         // Equipando itens em Thorin (guerreiro)
         thorin.equiparItem("Espada Longa");
         thorin.equiparItem("Escudo de Ferro");

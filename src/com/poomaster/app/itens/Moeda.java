@@ -17,11 +17,22 @@ public class Moeda extends Item implements Empilhavel {
     }
 
     public void aumentarQuantidade(int q) {
+        if (q < 0) {
+            System.out.println("Não é possível adicionar uma quantidade negativa de moedas. \n");
+            return;
+        }
         this.quantidade += q;
+        System.out.println("Novo numero de " + getNome() + ": " + this.quantidade + " \n");
     }
 
     public void diminuirQuantidade(int q) {
-        this.quantidade -= q;
+        if (q > this.quantidade) {
+            System.out.println("Não é possível remover " + q + " moedas. " +
+                    "Quantidade disponível: " + this.quantidade + ". \n");
+        } else {
+            this.quantidade -= q;
+            System.out.println("Novo numero de " + getNome() + ": " + this.quantidade + " \n");
+        }
     }
 
     @Override

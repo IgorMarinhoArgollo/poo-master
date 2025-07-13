@@ -17,7 +17,6 @@ public abstract class Item {
         return valor;
     }
 
-
     public abstract boolean isEmpilhavel();
 
     @Override
