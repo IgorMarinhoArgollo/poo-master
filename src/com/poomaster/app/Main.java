@@ -127,7 +127,21 @@ public class Main {
         List<Criaturas> inimigos = new ArrayList<>();
         List<Item> itens = new ArrayList<>();
 
-        System.out.println("Digite comandos (digite 'exit' para sair):");
+        System.out.println("Bem-vindo ao Mestre das Fichas! Comandos disponíveis:");
+        System.out.println(" - criar guerreiro");
+        System.out.println(" - criar mago");
+        System.out.println(" - criar inimigo");
+        System.out.println(" - criar moeda");
+        System.out.println(" - criar consumivel");
+        System.out.println(" - criar equipamento");
+        System.out.println(" - atribuir item");
+        System.out.println(" - equipar item");
+        System.out.println(" - iniciar batalha");
+        System.out.println(" - listar equipamentos");
+        System.out.println(" - listar inventario");
+        System.out.println(" - remover item");
+        System.out.println(" - exit (para sair)");
+        System.out.println("Digite comandos (digite 'exit' para sair ou 'voltar' para voltar ao menu):");
         while (true) {
             linha = scanner.nextLine();
             if (linha.equalsIgnoreCase("exit")) {
@@ -135,9 +149,12 @@ public class Main {
             }
 
             switch (linha.toLowerCase()) {
-               case "criar guerreiro":
-                    System.out.print("Insira o nome do Guerreiro: ");
-                    String nomeGuerreiro = scanner.nextLine();
+                case "criar guerreiro":
+                    String nomeGuerreiro = lerEntradaOuVoltar(scanner, "Insira o nome do Guerreiro: ");
+                    if (nomeGuerreiro == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
                     Guerreiro novoGuerreiro = new Guerreiro(nomeGuerreiro);
                     guerreiros.add(novoGuerreiro);
                     System.out.println("Guerreiro " + nomeGuerreiro + " criado!");
@@ -145,8 +162,11 @@ public class Main {
                     break;
 
                 case "criar mago":
-                    System.out.print("Insira o nome do mago: ");
-                    String nomeMago = scanner.nextLine();
+                    String nomeMago = lerEntradaOuVoltar(scanner, "Insira o nome do mago: ");
+                    if (nomeMago == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
                     Mago novoMago = new Mago(nomeMago);
                     magos.add(novoMago);
                     System.out.println("Mago " + nomeMago + " criado!");
@@ -154,15 +174,23 @@ public class Main {
                     break;
 
                 case "criar inimigo":
-                    System.out.print("Insira o nome do inimigo: ");
-                    String nomeCriatura = scanner.nextLine();
-
-                    int forca = lerInteiroPositivo(scanner, "Força: ");
-                    int destreza = lerInteiroPositivo(scanner, "Destreza: ");
-                    int constituicao = lerInteiroPositivo(scanner, "Constituição: ");
-                    int inteligencia = lerInteiroPositivo(scanner, "Inteligência: ");
-                    int percepcao = lerInteiroPositivo(scanner, "Percepção: ");
-                    int agilidade = lerInteiroPositivo(scanner, "Agilidade: ");
+                    String nomeCriatura = lerEntradaOuVoltar(scanner, "Insira o nome do inimigo: ");
+                    if (nomeCriatura == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
+                    Integer forca = lerInteiroPositivoOuVoltar(scanner, "Força: ");
+                    if (forca == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer destreza = lerInteiroPositivoOuVoltar(scanner, "Destreza: ");
+                    if (destreza == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer constituicao = lerInteiroPositivoOuVoltar(scanner, "Constituição: ");
+                    if (constituicao == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer inteligencia = lerInteiroPositivoOuVoltar(scanner, "Inteligência: ");
+                    if (inteligencia == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer percepcao = lerInteiroPositivoOuVoltar(scanner, "Percepção: ");
+                    if (percepcao == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer agilidade = lerInteiroPositivoOuVoltar(scanner, "Agilidade: ");
+                    if (agilidade == null) { System.out.println("operação cancelada \n"); break; }
 
                     Criaturas novaCriatura = new Criaturas(nomeCriatura, forca, destreza, constituicao, inteligencia, percepcao, agilidade) {};
                     inimigos.add(novaCriatura);
@@ -171,30 +199,50 @@ public class Main {
                     break;
 
                 case "criar moeda":
-                    System.out.print("Nome da moeda: ");
-                    String nomeMoeda = scanner.nextLine();
-                    int quantidadeMoeda = lerInteiroPositivo(scanner, "Quantidade: ");
+                    String nomeMoeda = lerEntradaOuVoltar(scanner, "Nome da moeda: ");
+                    if (nomeMoeda == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
+                    Integer quantidadeMoeda = lerInteiroPositivoOuVoltar(scanner, "Quantidade: ");
+                    if (quantidadeMoeda == null) { System.out.println("operação cancelada \n"); break; }
                     Moeda novaMoeda = new Moeda(nomeMoeda, quantidadeMoeda);
                     itens.add(novaMoeda);
                     break;
 
                 case "criar consumivel":
-                    System.out.print("Nome do consumível: ");
-                    String nomeConsumivel = scanner.nextLine();
-                    int cura = lerInteiroPositivo(scanner, "Cura: ");
-                    int valorConsumivel = lerInteiroPositivo(scanner, "Valor: ");
-                    int quantidadeConsumivel = lerInteiroPositivo(scanner, "Quantidade: ");
+                    String nomeConsumivel = lerEntradaOuVoltar(scanner, "Nome do consumível: ");
+                    if (nomeConsumivel == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
+                    Integer cura = lerInteiroPositivoOuVoltar(scanner, "Cura: ");
+                    if (cura == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer valorConsumivel = lerInteiroPositivoOuVoltar(scanner, "Valor: ");
+                    if (valorConsumivel == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer quantidadeConsumivel = lerInteiroPositivoOuVoltar(scanner, "Quantidade: ");
+                    if (quantidadeConsumivel == null) { System.out.println("operação cancelada \n"); break; }
                     Consumivel novoConsumivel = new Consumivel(nomeConsumivel, cura, valorConsumivel, quantidadeConsumivel);
                     itens.add(novoConsumivel);
                     break;
 
                 case "criar equipamento":
-                    System.out.print("Nome do equipamento: ");
-                    String nomeEquip = scanner.nextLine();
-                    int ataque = lerInteiroPositivo(scanner, "Ataque: ");
-                    int defesa = lerInteiroPositivo(scanner, "Defesa: ");
-                    int valorEquip = lerInteiroPositivo(scanner, "Valor: ");
-                    String slot = lerSlotValido(scanner, "Slot (mao_direita, mao_esquerda, armadura): ");
+                    String nomeEquip = lerEntradaOuVoltar(scanner, "Nome do equipamento: ");
+                    if (nomeEquip == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
+                    Integer ataque = lerInteiroPositivoOuVoltar(scanner, "Ataque: ");
+                    if (ataque == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer defesa = lerInteiroPositivoOuVoltar(scanner, "Defesa: ");
+                    if (defesa == null) { System.out.println("operação cancelada \n"); break; }
+                    Integer valorEquip = lerInteiroPositivoOuVoltar(scanner, "Valor: ");
+                    if (valorEquip == null) { System.out.println("operação cancelada \n"); break; }
+                    String slot = lerSlotValidoOuVoltar(scanner, "Slot (mao_direita, mao_esquerda, armadura): ");
+                    if (slot == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
                     try {
                         Equipamento novoEquipamento = new Equipamento(nomeEquip, ataque, defesa, valorEquip, slot);
                         itens.add(novoEquipamento);
@@ -203,12 +251,15 @@ public class Main {
                         System.out.println("Erro ao criar equipamento: " + e.getMessage() + "\n");
                     }
                     break;
-                    
+
                 case "atribuir item":
                     Personagem personagemEq = null;
                     while (personagemEq == null) {
-                        System.out.print("Nome do personagem: ");
-                        String nomePersonagemEq = scanner.nextLine();
+                        String nomePersonagemEq = lerEntradaOuVoltar(scanner, "Nome do personagem: ");
+                        if (nomePersonagemEq == null) {
+                            System.out.println("operação cancelada \n");
+                            break;
+                        }
                         for (Guerreiro g : guerreiros) {
                             if (g.getNome().equalsIgnoreCase(nomePersonagemEq)) {
                                 personagemEq = g;
@@ -227,11 +278,15 @@ public class Main {
                             System.out.println("Personagem não encontrado. Tente novamente. \n");
                         }
                     }
+                    if (personagemEq == null) break;
 
                     Item itemAtribuir = null;
                     while (itemAtribuir == null) {
-                        System.out.print("Nome do item: ");
-                        String nomeItem = scanner.nextLine();
+                        String nomeItem = lerEntradaOuVoltar(scanner, "Nome do item: ");
+                        if (nomeItem == null) {
+                            System.out.println("operação cancelada \n");
+                            break;
+                        }
                         for (Item item : itens) {
                             if (item.getNome().equalsIgnoreCase(nomeItem)) {
                                 itemAtribuir = item;
@@ -242,15 +297,20 @@ public class Main {
                             System.out.println("Item não encontrado. Tente novamente. \n");
                         }
                     }
+                    if (itemAtribuir == null) break;
                     personagemEq.adicionarItem(itemAtribuir);
                     itens.remove(itemAtribuir);
                     System.out.println("Item atribuído ao personagem! \n");
                     break;
+
                 case "equipar item":
                     Personagem personagemEquipar = null;
                     while (personagemEquipar == null) {
-                        System.out.print("Nome do personagem: ");
-                        String nomePersonagem = scanner.nextLine();
+                        String nomePersonagem = lerEntradaOuVoltar(scanner, "Nome do personagem: ");
+                        if (nomePersonagem == null) {
+                            System.out.println("operação cancelada \n");
+                            break;
+                        }
                         for (Guerreiro g : guerreiros) {
                             if (g.getNome().equalsIgnoreCase(nomePersonagem)) {
                                 personagemEquipar = g;
@@ -269,11 +329,15 @@ public class Main {
                             System.out.println("Personagem não encontrado. Tente novamente.\n");
                         }
                     }
+                    if (personagemEquipar == null) break;
 
                     boolean equipado = false;
                     while (!equipado) {
-                        System.out.print("Nome do item a equipar: ");
-                        String nomeItemEquipar = scanner.nextLine();
+                        String nomeItemEquipar = lerEntradaOuVoltar(scanner, "Nome do item a equipar: ");
+                        if (nomeItemEquipar == null) {
+                            System.out.println("operação cancelada \n");
+                            break;
+                        }
                         equipado = personagemEquipar.equiparItem(nomeItemEquipar);
                         if (!equipado) {
                             System.out.println("Equipamento não encontrado. Tente novamente. \n");
@@ -284,12 +348,13 @@ public class Main {
                     List<Personagem> aliadosBatalha = new ArrayList<>();
                     List<Criaturas> inimigosBatalha = new ArrayList<>();
 
-                    int qtdAliados = lerInteiroPositivo(scanner, "Quantos aliados participarão da batalha? ");
+                    Integer qtdAliados = lerInteiroPositivoOuVoltar(scanner, "Quantos aliados participarão da batalha? ");
+                    if (qtdAliados == null) { System.out.println("operação cancelada \n"); break; }
                     for (int i = 0; i < qtdAliados; i++) {
                         Personagem aliado = null;
                         while (aliado == null) {
-                            System.out.print("Nome do aliado #" + (i + 1) + ": ");
-                            String nomeAliado = scanner.nextLine();
+                            String nomeAliado = lerEntradaOuVoltar(scanner, "Nome do aliado #" + (i + 1) + ": ");
+                            if (nomeAliado == null) { System.out.println("operação cancelada \n"); break; }
                             for (Guerreiro g : guerreiros) {
                                 if (g.getNome().equalsIgnoreCase(nomeAliado)) {
                                     aliado = g;
@@ -308,15 +373,17 @@ public class Main {
                                 System.out.println("Aliado não encontrado. Tente novamente. \n");
                             }
                         }
+                        if (aliado == null) { System.out.println("operação cancelada \n"); break; }
                         aliadosBatalha.add(aliado);
                     }
 
-                    int qtdInimigos = lerInteiroPositivo(scanner, "Quantos inimigos participarão da batalha? ");
+                    Integer qtdInimigos = lerInteiroPositivoOuVoltar(scanner, "Quantos inimigos participarão da batalha? ");
+                    if (qtdInimigos == null) { System.out.println("operação cancelada \n"); break; }
                     for (int i = 0; i < qtdInimigos; i++) {
                         Criaturas inimigo = null;
                         while (inimigo == null) {
-                            System.out.print("Nome do inimigo #" + (i + 1) + ": ");
-                            String nomeInimigo = scanner.nextLine();
+                            String nomeInimigo = lerEntradaOuVoltar(scanner, "Nome do inimigo #" + (i + 1) + ": ");
+                            if (nomeInimigo == null) { System.out.println("operação cancelada \n"); break; }
                             for (Criaturas c : inimigos) {
                                 if (c.getNome().equalsIgnoreCase(nomeInimigo)) {
                                     inimigo = c;
@@ -327,6 +394,7 @@ public class Main {
                                 System.out.println("Inimigo não encontrado. Tente novamente.");
                             }
                         }
+                        if (inimigo == null) { System.out.println("operação cancelada \n"); break; }
                         inimigosBatalha.add(inimigo);
                     }
 
@@ -423,8 +491,11 @@ public class Main {
                 case "listar equipamentos":
                     Personagem personagemListarEq = null;
                     while (personagemListarEq == null) {
-                        System.out.print("Nome do personagem: ");
-                        String nomePersonagem = scanner.nextLine();
+                        String nomePersonagem = lerEntradaOuVoltar(scanner, "Nome do personagem: ");
+                        if (nomePersonagem == null) {
+                            System.out.println("operação cancelada \n");
+                            break;
+                        }
                         for (Guerreiro g : guerreiros) {
                             if (g.getNome().equalsIgnoreCase(nomePersonagem)) {
                                 personagemListarEq = g;
@@ -443,14 +514,18 @@ public class Main {
                             System.out.println("Personagem não encontrado. Tente novamente.\n");
                         }
                     }
+                    if (personagemListarEq == null) break;
                     personagemListarEq.listarEquipamentos();
                     break;
 
                 case "listar inventario":
                     Personagem personagemListarInv = null;
                     while (personagemListarInv == null) {
-                        System.out.print("Nome do personagem: ");
-                        String nomePersonagem = scanner.nextLine();
+                        String nomePersonagem = lerEntradaOuVoltar(scanner, "Nome do personagem: ");
+                        if (nomePersonagem == null) {
+                            System.out.println("operação cancelada \n");
+                            break;
+                        }
                         for (Guerreiro g : guerreiros) {
                             if (g.getNome().equalsIgnoreCase(nomePersonagem)) {
                                 personagemListarInv = g;
@@ -469,8 +544,10 @@ public class Main {
                             System.out.println("Personagem não encontrado. Tente novamente.\n");
                         }
                     }
+                    if (personagemListarInv == null) break;
                     personagemListarInv.listarInventario();
                     break;
+
                 case "remover item":
                     Personagem personagemRemover = null;
                     while (personagemRemover == null) {
@@ -494,13 +571,21 @@ public class Main {
                             System.out.println("Personagem não encontrado. Tente novamente.\n");
                         }
                     }
+                    if (personagemRemover == null) break;
 
-                    System.out.print("Nome do item a remover: ");
-                    String nomeItemRemover = scanner.nextLine();
-
-                    int quantidadeRemover = lerInteiroPositivo(scanner, "Quantidade a remover: ");
+                    String nomeItemRemover = lerEntradaOuVoltar(scanner, "Nome do item a remover: ");
+                    if (nomeItemRemover == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
+                    Integer quantidadeRemover = lerInteiroPositivoOuVoltar(scanner, "Quantidade a remover: ");
+                    if (quantidadeRemover == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
                     personagemRemover.removerItem(nomeItemRemover, quantidadeRemover);
                     break;
+
                 default:
                     System.out.println("Comando não reconhecido. \n");
                     break;
@@ -510,14 +595,17 @@ public class Main {
         System.out.println("Programa encerrado.");
     }
 
-    private static int lerInteiroPositivo(Scanner scanner, String mensagem) {
-        int valor;
+    private static Integer lerInteiroPositivoOuVoltar(Scanner scanner, String mensagem) {
         while (true) {
             System.out.print(mensagem);
+            String entrada = scanner.nextLine();
+            if (entrada.equalsIgnoreCase("voltar")) {
+                return null;
+            }
             try {
-                valor = Integer.parseInt(scanner.nextLine());
+                int valor = Integer.parseInt(entrada);
                 if (valor >= 0) {
-                    break;
+                    return valor;
                 } else {
                     System.out.println("Digite um número inteiro maior ou igual a 0.");
                 }
@@ -525,14 +613,16 @@ public class Main {
                 System.out.println("Entrada inválida. Digite um número inteiro positivo.");
             }
         }
-        return valor;
     }
 
-    private static String lerSlotValido(Scanner scanner, String mensagem) {
+    private static String lerSlotValidoOuVoltar(Scanner scanner, String mensagem) {
         String slot;
         while (true) {
             System.out.print(mensagem);
             slot = scanner.nextLine().trim();
+            if (slot.equalsIgnoreCase("voltar")) {
+                return null;
+            }
             boolean valido = false;
             for (Slots s : Slots.values()) {
                 if (s.getValor().equalsIgnoreCase(slot)) {
@@ -547,5 +637,14 @@ public class Main {
             }
         }
         return slot;
+    }
+
+    private static String lerEntradaOuVoltar(Scanner scanner, String mensagem) {
+        System.out.print(mensagem);
+        String entrada = scanner.nextLine();
+        if (entrada.equalsIgnoreCase("voltar")) {
+            return null;
+        }
+        return entrada;
     }
 }
