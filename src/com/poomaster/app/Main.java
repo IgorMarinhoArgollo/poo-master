@@ -140,6 +140,10 @@ public class Main {
         System.out.println(" - listar equipamentos");
         System.out.println(" - listar inventario");
         System.out.println(" - remover item");
+        System.out.println(" - atribuir experiencia");
+        System.out.println(" - exibir status");
+        System.out.println(" - exibir personagens");
+        System.out.println(" - exibir inimigos");
         System.out.println(" - exit (para sair)");
         System.out.println("Digite comandos (digite 'exit' para sair ou 'voltar' para voltar ao menu):");
         while (true) {
@@ -442,7 +446,88 @@ public class Main {
                     }
                     personagemRemover.removerItem(nomeItemRemover, quantidadeRemover);
                     break;
+                case "atribuir experiencia":
+                    Personagem personagemExp = null;
+                    while (personagemExp == null) {
+                        String nomePersonagem = lerEntradaOuVoltar(scanner, "Nome do personagem: ");
+                        if (nomePersonagem == null) {
+                            System.out.println("operação cancelada \n");
+                            break;
+                        }
+                        for (Guerreiro g : guerreiros) {
+                            if (g.getNome().equalsIgnoreCase(nomePersonagem)) {
+                                personagemExp = g;
+                                break;
+                            }
+                        }
+                        if (personagemExp == null) {
+                            for (Mago m : magos) {
+                                if (m.getNome().equalsIgnoreCase(nomePersonagem)) {
+                                    personagemExp = m;
+                                    break;
+                                }
+                            }
+                        }
+                        if (personagemExp == null) {
+                            System.out.println("Personagem não encontrado. Tente novamente.\n");
+                        }
+                    }
+                    if (personagemExp == null) break;
 
+                    Integer quantidadeExp = lerInteiroPositivoOuVoltar(scanner, "Quantidade de experiência a ganhar: ");
+                    if (quantidadeExp == null) {
+                        System.out.println("operação cancelada \n");
+                        break;
+                    }
+                    personagemExp.ganharExperiencia(quantidadeExp);
+                    break;
+                case "exibir status":
+                  Personagem personagemStatus = null;
+                  while (personagemStatus == null) {
+                      String nomePersonagem = lerEntradaOuVoltar(scanner, "Nome do personagem: ");
+                      if (nomePersonagem == null) {
+                          System.out.println("operação cancelada \n");
+                          break;
+                      }
+                      for (Guerreiro g : guerreiros) {
+                          if (g.getNome().equalsIgnoreCase(nomePersonagem)) {
+                              personagemStatus = g;
+                              break;
+                          }
+                      }
+                      if (personagemStatus == null) {
+                          for (Mago m : magos) {
+                              if (m.getNome().equalsIgnoreCase(nomePersonagem)) {
+                                  personagemStatus = m;
+                                  break;
+                              }
+                          }
+                      }
+                      if (personagemStatus == null) {
+                          System.out.println("Personagem não encontrado. Tente novamente.\n");
+                      }
+                    }
+                    if (personagemStatus != null) {
+                        System.out.println(personagemStatus);
+                    }
+                    break;
+                case "exibir personagens":
+                    System.out.println("Guerreiros:");
+                    for (Guerreiro g : guerreiros) {
+                        System.out.println("- " + g.getNome());
+                    }
+                    System.out.println("Magos:");
+                    for (Mago m : magos) {
+                        System.out.println("- " + m.getNome());
+                    }
+                    break;
+
+                case "exibir inimigos":
+                    System.out.println("Inimigos ativos:");
+                    for (Criaturas c : inimigos) {
+                        System.out.println("- " + c.getNome());
+                    }
+                    break;
                 case "iniciar batalha":
                 List<Personagem> aliadosBatalha = new ArrayList<>();
                 List<Criaturas> inimigosBatalha = new ArrayList<>();
@@ -510,6 +595,14 @@ public class Main {
                     ordemTurnos.addAll(aliadosBatalha);
                     ordemTurnos.addAll(inimigosBatalha);
                     ordemTurnos.sort((a, b) -> Integer.compare(b.getAgilidade(), a.getAgilidade()));
+
+                    // Exibe ordem de ataque e vida atual
+                    System.out.println("\nOrdem de ataque deste turno:");
+                    for (Criaturas c : ordemTurnos) {
+                        String tipo = (aliadosBatalha.contains(c)) ? "[Aliado]" : "[Inimigo]";
+                        System.out.println(tipo + " " + c.getNome() + " - Vida: " + c.getVidaAtual());
+                    }
+                    System.out.println();
 
                     for (Criaturas combatente : new ArrayList<>(ordemTurnos)) {
                         if (!combatente.isAlive()) continue;
@@ -603,7 +696,12 @@ public class Main {
                 } else {
                     System.out.println("Todos os inimigos foram derrotados! \n");
                 }
+
+                // Remover personagens mortos das listas principais
+                guerreiros.removeIf(g -> !g.isAlive());
+                magos.removeIf(m -> !m.isAlive());
                 break;
+                
                 default:
                 System.out.println("Comando não reconhecido. \n");
                 break;
