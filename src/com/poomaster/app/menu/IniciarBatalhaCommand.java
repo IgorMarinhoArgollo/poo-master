@@ -6,6 +6,9 @@ import com.poomaster.app.criaturas.Personagem;
 import com.poomaster.app.criaturas.Criaturas;
 import com.poomaster.app.utils.LeitorUtils;
 import com.poomaster.app.utils.BuscaUtils;
+import com.poomaster.app.menu.batalha.AcaoAtacar;
+import com.poomaster.app.menu.batalha.AcaoUsarHabilidade;
+import com.poomaster.app.menu.batalha.AcaoUsarConsumivel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,50 +99,15 @@ public class IniciarBatalhaCommand implements Comando {
                         }
                         switch (acao) {
                             case "1":
-                                Criaturas alvo = null;
-                                while (alvo == null) {
-                                    String nomeAlvo = LeitorUtils.lerEntradaOuVoltar(scanner, "Nome do inimigo a atacar: ");
-                                    if (nomeAlvo == null) {
-                                        System.out.println("Voltando para as opções de ação...");
-                                        break;
-                                    }
-                                    for (Criaturas inimigo : inimigosBatalha) {
-                                        if (inimigo.getNome().equalsIgnoreCase(nomeAlvo) && inimigo.isAlive()) {
-                                            alvo = inimigo;
-                                            break;
-                                        }
-                                    }
-                                    if (alvo == null) System.out.println("Inimigo não encontrado ou já derrotado. \n");
-                                }
-                                if (alvo == null) break;
-                                personagem.ataque(alvo);
-                                if (!alvo.isAlive()) {
-                                    System.out.println(alvo.getNome() + " foi derrotado! \n");
-                                    inimigos.remove(alvo);
-                                    inimigosBatalha.remove(alvo);
-                                }
+                                new AcaoAtacar(scanner, personagem, inimigosBatalha, inimigos).executar();
                                 acaoValida = true;
                                 break;
                             case "2":
-                                if (personagem instanceof Guerreiro) {
-                                    ((Guerreiro) personagem).posturaDefensiva();
-                                } else if (personagem instanceof Mago) {
-                                    ((Mago) personagem).miragemArcana();
-                                } else {
-                                    System.out.println("Este personagem não possui habilidade especial. \n");
-                                }
+                                new AcaoUsarHabilidade(personagem).executar();
                                 acaoValida = true;
                                 break;
                             case "3":
-                                String nomePocao = LeitorUtils.lerEntradaOuVoltar(scanner, "Nome do consumível: ");
-                                if (nomePocao == null) {
-                                    System.out.println("Voltando para as opções de ação...");
-                                    break;
-                                }
-                                boolean usou = personagem.usarPocao(nomePocao);
-                                if (!usou) {
-                                    System.out.println("Consumível não encontrado ou não pode ser usado. \n");
-                                }
+                                new AcaoUsarConsumivel(scanner, personagem).executar();
                                 acaoValida = true;
                                 break;
                             default:
