@@ -91,11 +91,11 @@ public abstract class Personagem extends Criaturas {
 
     public void removerItem(String nomeItem, int quantidade) {
         if (nomeItem == null || nomeItem.trim().isEmpty()) {
-            System.out.println("Nome do item não pode ser nulo ou vazio.");
+            System.out.println("Nome do item não pode ser nulo ou vazio. \n");
             return;
         }
         if (quantidade <= 0) {
-            System.out.println("Quantidade deve ser maior que zero.");
+            System.out.println("Quantidade deve ser maior que zero. \n");
             return;
         }
         for (int i = 0; i < inventario.size(); i++) {
@@ -113,11 +113,11 @@ public abstract class Personagem extends Criaturas {
                             ". Restam " + empilhavel.getQuantidade());
                 } else {
                     inventario.remove(i);
-                    System.out.println(item.getNome() + " foi removido do inventário.");
+                    System.out.println(item.getNome() + " foi removido do inventário. \n");
                 }
             } else {
                 inventario.remove(i);
-                System.out.println(item.getNome() + " foi removido do inventário.");
+                System.out.println(item.getNome() + " foi removido do inventário. \n");
             }
             return;
         }
