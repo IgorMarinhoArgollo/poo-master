@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) {
 
         // Instanciando personagens
-        Guerreiro guerreiro = new Guerreiro("Thorin");
-        Mago mago = new Mago("Merlin");
+        Guerreiro thorin = new Guerreiro("Thorin");
+        Mago merlin = new Mago("Merlin");
 
         // Instanciando itens do Guerreiro
         Equipamento espada = new Equipamento("Espada Longa", 5, 0, 100, Slots.MAO_DIREITA.getValor());
@@ -32,39 +32,39 @@ public class Main {
         Consumivel pocaoMedia = new Consumivel("Poção Média", 15, 25, 1);
 
         // Adicionando itens ao inventário dos personagens
-        guerreiro.adicionarItem(espada);
-        guerreiro.adicionarItem(escudo);
-        guerreiro.adicionarItem(armaduraGuerreiro);
-        guerreiro.adicionarItem(machado);
-        guerreiro.adicionarItem(moedasGuerreiro);
-        guerreiro.adicionarItem(pocaoPequena);
+        thorin.adicionarItem(espada);
+        thorin.adicionarItem(escudo);
+        thorin.adicionarItem(armaduraGuerreiro);
+        thorin.adicionarItem(machado);
+        thorin.adicionarItem(moedasGuerreiro);
+        thorin.adicionarItem(pocaoPequena);
 
-        mago.adicionarItem(armaduraMago);
-        mago.adicionarItem(cajado);
-        mago.adicionarItem(varinha);
-        mago.adicionarItem(moedasMago);
-        mago.adicionarItem(pocaoMedia);
+        merlin.adicionarItem(armaduraMago);
+        merlin.adicionarItem(cajado);
+        merlin.adicionarItem(varinha);
+        merlin.adicionarItem(moedasMago);
+        merlin.adicionarItem(pocaoMedia);
 
         // Exemplo de listagem dos inventários antes de equipar
-        guerreiro.listarInventario();
-        mago.listarInventario();
+        thorin.listarInventario();
+        merlin.listarInventario();
 
         // Equipando itens em Thorin (guerreiro)
-        guerreiro.equiparItem("Espada Longa");
-        guerreiro.equiparItem("Escudo de Ferro");
-        guerreiro.equiparItem("Armadura de Placas");
+        thorin.equiparItem("Espada Longa");
+        thorin.equiparItem("Escudo de Ferro");
+        thorin.equiparItem("Armadura de Placas");
 
         // Equipando itens em Merlin (mago)
-        mago.equiparItem("Cajado de Carvalho");
-        mago.equiparItem("Manto Arcano");
+        merlin.equiparItem("Cajado de Carvalho");
+        merlin.equiparItem("Manto Arcano");
 
         // Exemplo de listagem dos inventários depois de equipar
-        guerreiro.listarInventario();
-        mago.listarInventario();
+        thorin.listarInventario();
+        merlin.listarInventario();
 
         // Listando equipamentos equipados
-        guerreiro.listarEquipamentos();
-        mago.listarEquipamentos();
+        thorin.listarEquipamentos();
+        merlin.listarEquipamentos();
 
         // Loop de comandos (mantido do seu código)
         Scanner scanner = new Scanner(System.in);
