@@ -3,6 +3,7 @@ package com.poomaster.app;
 import com.poomaster.app.criaturas.Criaturas;
 import com.poomaster.app.criaturas.Guerreiro;
 import com.poomaster.app.criaturas.Mago;
+import com.poomaster.app.criaturas.Personagem;
 import com.poomaster.app.itens.Equipamento;
 import com.poomaster.app.itens.Item;
 import com.poomaster.app.itens.Moeda;
@@ -207,8 +208,87 @@ public class Main {
                         System.out.println("Erro ao criar equipamento: " + e.getMessage() + "\n");
                     }
                     break;
+                    
+                case "atribuir item":
+                    Personagem personagemEq = null;
+                    while (personagemEq == null) {
+                        System.out.print("Nome do personagem: ");
+                        String nomePersonagemEq = scanner.nextLine();
+                        for (Guerreiro g : guerreiros) {
+                            if (g.getNome().equalsIgnoreCase(nomePersonagemEq)) {
+                                personagemEq = g;
+                                break;
+                            }
+                        }
+                        if (personagemEq == null) {
+                            for (Mago m : magos) {
+                                if (m.getNome().equalsIgnoreCase(nomePersonagemEq)) {
+                                    personagemEq = m;
+                                    break;
+                                }
+                            }
+                        }
+                        if (personagemEq == null) {
+                            System.out.println("Personagem não encontrado. Tente novamente. \n");
+                        }
+                    }
+
+                    Equipamento equipamento = null;
+                    while (equipamento == null) {
+                        System.out.print("Nome do item: ");
+                        String nomeEquipamento = scanner.nextLine();
+                        for (Item item : itens) {
+                            if (item instanceof Equipamento && item.getNome().equalsIgnoreCase(nomeEquipamento)) {
+                                equipamento = (Equipamento) item;
+                                break;
+                            }
+                        }
+                        if (equipamento == null) {
+                            System.out.println("Item não encontrado. Tente novamente. \n");
+                        }
+                    }
+
+                    personagemEq.adicionarItem(equipamento);
+                    // Para remover da lista de itens geral - evita atribuir o mesmo item para vários personagens
+                    itens.remove(equipamento);
+                    System.out.println("Item atribuído ao personagem! \n");
+                    break;
+                case "equipar item":
+                    Personagem personagemEquipar = null;
+                    while (personagemEquipar == null) {
+                        System.out.print("Nome do personagem: ");
+                        String nomePersonagem = scanner.nextLine();
+                        for (Guerreiro g : guerreiros) {
+                            if (g.getNome().equalsIgnoreCase(nomePersonagem)) {
+                                personagemEquipar = g;
+                                break;
+                            }
+                        }
+                        if (personagemEquipar == null) {
+                            for (Mago m : magos) {
+                                if (m.getNome().equalsIgnoreCase(nomePersonagem)) {
+                                    personagemEquipar = m;
+                                    break;
+                                }
+                            }
+                        }
+                        if (personagemEquipar == null) {
+                            System.out.println("Personagem não encontrado. Tente novamente.\n");
+                        }
+                    }
+
+                    boolean equipado = false;
+                    while (!equipado) {
+                        System.out.print("Nome do item a equipar: ");
+                        String nomeItemEquipar = scanner.nextLine();
+                        equipado = personagemEquipar.equiparItem(nomeItemEquipar);
+                        if (!equipado) {
+                            System.out.println("Equipamento não encontrado. Tente novamente. \n");
+                        }
+                    }
+                    break;
                 default:
-                    System.out.println("Comando não reconhecido.");
+                    System.out.println("Comando não reconhecido. \n");
                     break;
             }
         }
@@ -225,7 +305,7 @@ public class Main {
                 if (valor >= 0) {
                     break;
                 } else {
-                    System.out.println("Digite um número inteiro positivo.");
+                    System.out.println("Digite um número inteiro maior ou igual a 0.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Entrada inválida. Digite um número inteiro positivo.");

@@ -138,7 +138,7 @@ public abstract class Personagem extends Criaturas {
     }
 
     /////////////////////////////// EQUIPAMENTO
-    public void equiparItem(String nomeItem) {
+    public boolean equiparItem(String nomeItem) {
         for (int i = 0; i < inventario.size(); i++) {
             Item item = inventario.get(i);
             if (item instanceof Equipamento equip && equip.getNome().equalsIgnoreCase(nomeItem)) {
@@ -152,10 +152,11 @@ public abstract class Personagem extends Criaturas {
                 equip.setEquipado(true);
                 inventario.remove(i);
                 System.out.println(equip.getNome() + " foi equipado em "+ getNome() +". \n");
-                return;
+                return true;
             }
         }
         System.out.println("Item " + nomeItem + " não encontrado ou não é um equipamento.");
+        return false;
     }
 
     public void desequiparItem(String slot) {
