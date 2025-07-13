@@ -5,7 +5,7 @@ import static com.poomaster.app.utils.Constantes.*;
 
 
 public abstract class Criaturas {
-    protected String nome;
+    protected final String nome;
     protected int vidaMaxima;
     protected int vidaAtual;
     protected int forca;
@@ -13,7 +13,7 @@ public abstract class Criaturas {
     protected int constituicao;
     protected int inteligencia;
     protected int percepcao;
-    protected int agilidade;
+    protected final int agilidade;
 
     public Criaturas(String nome, int forca, int destreza, int constituicao, int inteligencia, int percepcao, int agilidade) {
         this.nome = nome;
@@ -232,10 +232,6 @@ public abstract class Criaturas {
 
     public void setPercepcao(int percepcao) {
         this.percepcao = percepcao;
-    }
-
-    public void setAgilidade(int agilidade) {
-        this.agilidade = agilidade;
     }
 
     @Override

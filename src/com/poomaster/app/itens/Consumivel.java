@@ -1,7 +1,7 @@
 package com.poomaster.app.itens;
 
 public class Consumivel extends Item implements Empilhavel {
-    private int cura;
+    private final int cura;
     private int quantidade;
 
     public Consumivel(String nome, int cura, int valor, int quantidade) {

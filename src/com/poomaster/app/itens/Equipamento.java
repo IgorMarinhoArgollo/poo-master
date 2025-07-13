@@ -1,10 +1,10 @@
 package com.poomaster.app.itens;
 
 public class Equipamento extends Item {
-    private int ataque;
-    private int defesa;
+    private final int ataque;
+    private final int defesa;
     private boolean equipado;
-    private String slot;
+    private final String slot;
 
     public Equipamento(String nome, int ataque, int defesa, int valor, String slot) {
         super(nome, valor);
