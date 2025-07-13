@@ -344,150 +344,7 @@ public class Main {
                         }
                     }
                     break;
-                case "iniciar batalha":
-                    List<Personagem> aliadosBatalha = new ArrayList<>();
-                    List<Criaturas> inimigosBatalha = new ArrayList<>();
-
-                    Integer qtdAliados = lerInteiroPositivoOuVoltar(scanner, "Quantos aliados participarão da batalha? ");
-                    if (qtdAliados == null) { System.out.println("operação cancelada \n"); break; }
-                    for (int i = 0; i < qtdAliados; i++) {
-                        Personagem aliado = null;
-                        while (aliado == null) {
-                            String nomeAliado = lerEntradaOuVoltar(scanner, "Nome do aliado #" + (i + 1) + ": ");
-                            if (nomeAliado == null) { System.out.println("operação cancelada \n"); break; }
-                            for (Guerreiro g : guerreiros) {
-                                if (g.getNome().equalsIgnoreCase(nomeAliado)) {
-                                    aliado = g;
-                                    break;
-                                }
-                            }
-                            if (aliado == null) {
-                                for (Mago m : magos) {
-                                    if (m.getNome().equalsIgnoreCase(nomeAliado)) {
-                                        aliado = m;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (aliado == null) {
-                                System.out.println("Aliado não encontrado. Tente novamente. \n");
-                            }
-                        }
-                        if (aliado == null) { System.out.println("operação cancelada \n"); break; }
-                        aliadosBatalha.add(aliado);
-                    }
-
-                    Integer qtdInimigos = lerInteiroPositivoOuVoltar(scanner, "Quantos inimigos participarão da batalha? ");
-                    if (qtdInimigos == null) { System.out.println("operação cancelada \n"); break; }
-                    for (int i = 0; i < qtdInimigos; i++) {
-                        Criaturas inimigo = null;
-                        while (inimigo == null) {
-                            String nomeInimigo = lerEntradaOuVoltar(scanner, "Nome do inimigo #" + (i + 1) + ": ");
-                            if (nomeInimigo == null) { System.out.println("operação cancelada \n"); break; }
-                            for (Criaturas c : inimigos) {
-                                if (c.getNome().equalsIgnoreCase(nomeInimigo)) {
-                                    inimigo = c;
-                                    break;
-                                }
-                            }
-                            if (inimigo == null) {
-                                System.out.println("Inimigo não encontrado. Tente novamente.");
-                            }
-                        }
-                        if (inimigo == null) { System.out.println("operação cancelada \n"); break; }
-                        inimigosBatalha.add(inimigo);
-                    }
-
-                    System.out.println("\nBatalha iniciada!");
-                    System.out.println("Aliados: ");
-                    for (Personagem p : aliadosBatalha) System.out.println("- " + p.getNome());
-                    System.out.println("Inimigos: ");
-                    for (Criaturas c : inimigosBatalha) System.out.println("- " + c.getNome());
-                    System.out.println();
-
-                    while (!aliadosBatalha.isEmpty() && !inimigosBatalha.isEmpty()) {
-                        // Atualiza ordem dos turnos a cada rodada (caso alguém morra/agilidade mude)
-                        List<Criaturas> ordemTurnos = new ArrayList<>();
-                        ordemTurnos.addAll(aliadosBatalha);
-                        ordemTurnos.addAll(inimigosBatalha);
-                        ordemTurnos.sort((a, b) -> Integer.compare(b.getAgilidade(), a.getAgilidade()));
-
-                        for (Criaturas combatente : new ArrayList<>(ordemTurnos)) {
-                            if (!combatente.isAlive()) continue;
-
-                            // Se for aliado (Personagem)
-                            if (aliadosBatalha.contains(combatente)) {
-                                Personagem personagem = (Personagem) combatente;
-                                System.out.println("\nTurno de " + personagem.getNome() + "!");
-                                System.out.println("Escolha uma ação: \n[1] Atacar  \n[2] Usar habilidade  \n[3] Usar consumível");
-                                String acao = scanner.nextLine();
-
-                                switch (acao) {
-                                    case "1":
-                                        Criaturas alvo = null;
-                                        while (alvo == null) {
-                                            System.out.print("Nome do inimigo a atacar: ");
-                                            String nomeAlvo = scanner.nextLine();
-                                            for (Criaturas inimigo : inimigosBatalha) {
-                                                if (inimigo.getNome().equalsIgnoreCase(nomeAlvo) && inimigo.isAlive()) {
-                                                    alvo = inimigo;
-                                                    break;
-                                                }
-                                            }
-                                            if (alvo == null) System.out.println("Inimigo não encontrado ou já derrotado. \n");
-                                        }
-                                        personagem.ataque(alvo);
-                                        if (!alvo.isAlive()) {
-                                            System.out.println(alvo.getNome() + " foi derrotado! \n");
-                                            inimigos.remove(alvo);
-                                            inimigosBatalha.remove(alvo);
-                                        }
-                                        break;
-                                    case "2":
-                                        if (personagem instanceof Guerreiro) {
-                                            ((Guerreiro) personagem).posturaDefensiva();
-                                        } else if (personagem instanceof Mago) {
-                                            ((Mago) personagem).miragemArcana();
-                                        } else {
-                                            System.out.println("Este personagem não possui habilidade especial. \n");
-                                        }
-                                        break;
-                                    case "3": // Usar consumível
-                                        System.out.print("Nome do consumível: ");
-                                        String nomePocao = scanner.nextLine();
-                                        boolean usou = personagem.usarPocao(nomePocao);
-                                        if (!usou) {
-                                            System.out.println("Consumível não encontrado ou não pode ser usado. \n");
-                                        }
-                                        break;
-                                    default:
-                                        System.out.println("Ação inválida. Perdeu o turno! \n");
-                                }
-                            } else if (inimigosBatalha.contains(combatente)) {
-                                // Inimigo ataca automaticamente um aliado vivo aleatório
-                                if (!aliadosBatalha.isEmpty()) {
-                                    java.util.Random random = new java.util.Random();
-                                    int idx = random.nextInt(aliadosBatalha.size());
-                                    Personagem alvo = aliadosBatalha.get(idx);
-                                    combatente.ataque(alvo);
-                                    if (!alvo.isAlive()) {
-                                        System.out.println(alvo.getNome() + " foi derrotado! \n");
-                                        aliadosBatalha.remove(alvo);
-                                    }
-                                }
-                            }
-                            if (aliadosBatalha.isEmpty() || inimigosBatalha.isEmpty()) break;
-                        }
-                        System.out.println("Pressione ENTER para o próximo turno... \n");
-                        scanner.nextLine();
-                    }
-
-                    if (aliadosBatalha.isEmpty()) {
-                        System.out.println("Todos os aliados foram derrotados! \n");
-                    } else {
-                        System.out.println("Todos os inimigos foram derrotados! \n");
-                    }
-                    break;
+                
                 case "listar equipamentos":
                     Personagem personagemListarEq = null;
                     while (personagemListarEq == null) {
@@ -586,13 +443,172 @@ public class Main {
                     personagemRemover.removerItem(nomeItemRemover, quantidadeRemover);
                     break;
 
+                case "iniciar batalha":
+                List<Personagem> aliadosBatalha = new ArrayList<>();
+                List<Criaturas> inimigosBatalha = new ArrayList<>();
+
+                Integer qtdAliados = lerInteiroPositivoOuVoltar(scanner, "Quantos aliados participarão da batalha? ");
+                if (qtdAliados == null) { System.out.println("operação cancelada \n"); break; }
+                for (int i = 0; i < qtdAliados; i++) {
+                    Personagem aliado = null;
+                    while (aliado == null) {
+                        String nomeAliado = lerEntradaOuVoltar(scanner, "Nome do aliado #" + (i + 1) + ": ");
+                        if (nomeAliado == null) { System.out.println("operação cancelada \n"); break; }
+                        for (Guerreiro g : guerreiros) {
+                            if (g.getNome().equalsIgnoreCase(nomeAliado)) {
+                                aliado = g;
+                                break;
+                            }
+                        }
+                        if (aliado == null) {
+                            for (Mago m : magos) {
+                                if (m.getNome().equalsIgnoreCase(nomeAliado)) {
+                                    aliado = m;
+                                    break;
+                                }
+                            }
+                        }
+                        if (aliado == null) {
+                            System.out.println("Aliado não encontrado. Tente novamente. \n");
+                        }
+                    }
+                    if (aliado == null) { System.out.println("operação cancelada \n"); break; }
+                    aliadosBatalha.add(aliado);
+                }
+
+                Integer qtdInimigos = lerInteiroPositivoOuVoltar(scanner, "Quantos inimigos participarão da batalha? ");
+                if (qtdInimigos == null) { System.out.println("operação cancelada \n"); break; }
+                for (int i = 0; i < qtdInimigos; i++) {
+                    Criaturas inimigo = null;
+                    while (inimigo == null) {
+                        String nomeInimigo = lerEntradaOuVoltar(scanner, "Nome do inimigo #" + (i + 1) + ": ");
+                        if (nomeInimigo == null) { System.out.println("operação cancelada \n"); break; }
+                        for (Criaturas c : inimigos) {
+                            if (c.getNome().equalsIgnoreCase(nomeInimigo)) {
+                                inimigo = c;
+                                break;
+                            }
+                        }
+                        if (inimigo == null) {
+                            System.out.println("Inimigo não encontrado. Tente novamente.");
+                        }
+                    }
+                    if (inimigo == null) { System.out.println("operação cancelada \n"); break; }
+                    inimigosBatalha.add(inimigo);
+                }
+
+                System.out.println("\nBatalha iniciada!");
+                System.out.println("Aliados: ");
+                for (Personagem p : aliadosBatalha) System.out.println("- " + p.getNome());
+                System.out.println("Inimigos: ");
+                for (Criaturas c : inimigosBatalha) System.out.println("- " + c.getNome());
+                System.out.println();
+
+                while (!aliadosBatalha.isEmpty() && !inimigosBatalha.isEmpty()) {
+                    // Atualiza ordem dos turnos a cada rodada (caso alguém morra/agilidade mude)
+                    List<Criaturas> ordemTurnos = new ArrayList<>();
+                    ordemTurnos.addAll(aliadosBatalha);
+                    ordemTurnos.addAll(inimigosBatalha);
+                    ordemTurnos.sort((a, b) -> Integer.compare(b.getAgilidade(), a.getAgilidade()));
+
+                    for (Criaturas combatente : new ArrayList<>(ordemTurnos)) {
+                        if (!combatente.isAlive()) continue;
+
+                        // Se for aliado (Personagem)
+                        if (aliadosBatalha.contains(combatente)) {
+                            Personagem personagem = (Personagem) combatente;
+                            System.out.println("\nTurno de " + personagem.getNome() + "!");
+                            boolean acaoValida = false;
+                            while (!acaoValida) {
+                                System.out.println("Escolha uma ação: \n[1] Atacar  \n[2] Usar habilidade  \n[3] Usar consumível");
+                                String acao = lerEntradaOuVoltar(scanner, "Digite a opção desejada: ");
+                                if (acao == null) {
+                                    System.out.println("Voltando para as opções de ação...");
+                                    continue; // volta para o menu de ações
+                                }
+                                switch (acao) {
+                                    case "1":
+                                        Criaturas alvo = null;
+                                        while (alvo == null) {
+                                            String nomeAlvo = lerEntradaOuVoltar(scanner, "Nome do inimigo a atacar: ");
+                                            if (nomeAlvo == null) {
+                                                System.out.println("Voltando para as opções de ação...");
+                                                break; // volta para o menu de ações
+                                            }
+                                            for (Criaturas inimigo : inimigosBatalha) {
+                                                if (inimigo.getNome().equalsIgnoreCase(nomeAlvo) && inimigo.isAlive()) {
+                                                    alvo = inimigo;
+                                                    break;
+                                                }
+                                            }
+                                            if (alvo == null) System.out.println("Inimigo não encontrado ou já derrotado. \n");
+                                        }
+                                        if (alvo == null) break; // usuário digitou voltar
+                                        personagem.ataque(alvo);
+                                        if (!alvo.isAlive()) {
+                                            System.out.println(alvo.getNome() + " foi derrotado! \n");
+                                            inimigos.remove(alvo);
+                                            inimigosBatalha.remove(alvo);
+                                        }
+                                        acaoValida = true;
+                                        break;
+                                    case "2":
+                                        if (personagem instanceof Guerreiro) {
+                                            ((Guerreiro) personagem).posturaDefensiva();
+                                        } else if (personagem instanceof Mago) {
+                                            ((Mago) personagem).miragemArcana();
+                                        } else {
+                                            System.out.println("Este personagem não possui habilidade especial. \n");
+                                        }
+                                        acaoValida = true;
+                                        break;
+                                    case "3": // Usar consumível
+                                        String nomePocao = lerEntradaOuVoltar(scanner, "Nome do consumível: ");
+                                        if (nomePocao == null) {
+                                            System.out.println("Voltando para as opções de ação...");
+                                            break; // volta para o menu de ações
+                                        }
+                                        boolean usou = personagem.usarPocao(nomePocao);
+                                        if (!usou) {
+                                            System.out.println("Consumível não encontrado ou não pode ser usado. \n");
+                                        }
+                                        acaoValida = true;
+                                        break;
+                                    default:
+                                        System.out.println("Ação inválida. Perdeu o turno! \n");
+                                        acaoValida = true;
+                                }
+                            }
+                        } else if (inimigosBatalha.contains(combatente)) {
+                            // Inimigo ataca automaticamente um aliado vivo aleatório
+                            if (!aliadosBatalha.isEmpty()) {
+                                java.util.Random random = new java.util.Random();
+                                int idx = random.nextInt(aliadosBatalha.size());
+                                Personagem alvo = aliadosBatalha.get(idx);
+                                combatente.ataque(alvo);
+                                if (!alvo.isAlive()) {
+                                    System.out.println(alvo.getNome() + " foi derrotado! \n");
+                                    aliadosBatalha.remove(alvo);
+                                }
+                            }
+                        }
+                        if (aliadosBatalha.isEmpty() || inimigosBatalha.isEmpty()) break;
+                    }
+                    System.out.println("Pressione ENTER para o próximo turno... \n");
+                    scanner.nextLine();
+                }
+
+                if (aliadosBatalha.isEmpty()) {
+                    System.out.println("Todos os aliados foram derrotados! \n");
+                } else {
+                    System.out.println("Todos os inimigos foram derrotados! \n");
+                }
+                break;
                 default:
-                    System.out.println("Comando não reconhecido. \n");
-                    break;
+                System.out.println("Comando não reconhecido. \n");
+                break;
             }
         }
-        scanner.close();
-        System.out.println("Programa encerrado.");
     }
 
     private static Integer lerInteiroPositivoOuVoltar(Scanner scanner, String mensagem) {
