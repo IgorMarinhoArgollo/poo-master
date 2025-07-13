@@ -8,6 +8,7 @@ public class Consumivel extends Item implements Empilhavel {
         super(nome, valor);
         this.cura = cura;
         this.quantidade = quantidade;
+        System.out.println("Consumível criado: " + this.toString() + " \n");
     }
 
     public int getCura() {

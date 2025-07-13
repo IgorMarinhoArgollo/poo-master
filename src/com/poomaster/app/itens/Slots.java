@@ -21,7 +21,6 @@ public enum Slots {
         return nomeFormatado;
     }
 
-    // Método para verificar se uma string é um slot válido
     public static boolean isValido(String valor) {
         for (Slots slot : values()) {
             if (slot.getValor().equals(valor)) {

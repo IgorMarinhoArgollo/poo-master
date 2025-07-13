@@ -16,7 +16,7 @@ public class Main {
         Guerreiro thorin = new Guerreiro("Thorin");
         Mago merlin = new Mago("Merlin");
 
-        // Instanciando itens do Guerreiro
+        // Instanciando itens para o Thorin (guerreiro)
         Equipamento espada = new Equipamento("Espada Longa", 5, 0, 100, Slots.MAO_DIREITA.getValor());
         Equipamento escudo = new Equipamento("Escudo de Ferro", 0, 4, 80, Slots.MAO_ESQUERDA.getValor());
         Equipamento armaduraGuerreiro = new Equipamento("Armadura de Placas", 0, 6, 200, Slots.ARMADURA.getValor());
@@ -24,7 +24,7 @@ public class Main {
         Moeda moedasGuerreiro = new Moeda("Moeda de Ouro", 10);
         Consumivel pocaoPequena = new Consumivel("Poção Pequena", 5, 10, 2);
 
-        // Instanciando itens do Mago
+        // Instanciando itens para Merlin (mago)
         Equipamento armaduraMago = new Equipamento("Manto Arcano", 0, 3, 120, Slots.ARMADURA.getValor());
         Equipamento cajado = new Equipamento("Cajado de Carvalho", 6, 0, 150, Slots.MAO_DIREITA.getValor());
         Equipamento varinha = new Equipamento("Varinha de Foco", 4, 0, 90, Slots.MAO_DIREITA.getValor());
@@ -32,31 +32,30 @@ public class Main {
         Consumivel pocaoMedia = new Consumivel("Poção Média", 15, 25, 1);
 
         // Adicionando itens ao inventário dos personagens
-        thorin.adicionarItem(espada);
-        thorin.adicionarItem(escudo);
-        thorin.adicionarItem(armaduraGuerreiro);
-        thorin.adicionarItem(machado);
-        thorin.adicionarItem(moedasGuerreiro);
-        thorin.adicionarItem(pocaoPequena);
+        thorin.adicionarItem(espada); // Thorin (guerreiro)
+        thorin.adicionarItem(escudo); // Thorin (guerreiro)
+        thorin.adicionarItem(armaduraGuerreiro); // Thorin (guerreiro)
+        thorin.adicionarItem(machado); // Thorin (guerreiro)
+        thorin.adicionarItem(moedasGuerreiro); // Thorin (guerreiro)
+        thorin.adicionarItem(pocaoPequena); // Thorin (guerreiro)
 
-        merlin.adicionarItem(armaduraMago);
-        merlin.adicionarItem(cajado);
-        merlin.adicionarItem(varinha);
-        merlin.adicionarItem(moedasMago);
-        merlin.adicionarItem(pocaoMedia);
+        merlin.adicionarItem(armaduraMago); //Merlin (Mago)
+        merlin.adicionarItem(cajado); //Merlin (Mago)
+        merlin.adicionarItem(varinha); //Merlin (Mago)
+        merlin.adicionarItem(moedasMago); //Merlin (Mago)
+        merlin.adicionarItem(pocaoMedia); //Merlin (Mago)
 
         // Exemplo de listagem dos inventários antes de equipar
         thorin.listarInventario();
         merlin.listarInventario();
 
-        // Aumenta duas moeda de Thorin e diminui uma de Merlin
-        moedasGuerreiro.aumentarQuantidade(2);
-        // Removendo duas moeda de Merlin
-        moedasMago.diminuirQuantidade(2);
+        // Aumenta quantidade de moedas
+        moedasGuerreiro.aumentarQuantidade(2); // Thorin tinha 10
+        moedasMago.diminuirQuantidade(2); // Merlin tinha 15
 
-        // Alterando quantidade de poções
-        pocaoPequena.diminuirQuantidade(1); // Reduz uma poção de Thorin
-        pocaoMedia.aumentarQuantidade(4);
+        // Alterando quantidade de poções - método não é usado diretamente
+        pocaoPequena.diminuirQuantidade(1); // Reduz uma poção de Thorin (tinham 2)
+        pocaoMedia.aumentarQuantidade(4); // Aumenta uma poção do Merlin (tinha 1)
 
         // Equipando itens em Thorin (guerreiro)
         thorin.equiparItem("Espada Longa");

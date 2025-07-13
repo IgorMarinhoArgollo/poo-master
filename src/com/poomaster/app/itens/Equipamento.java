@@ -17,6 +17,7 @@ public class Equipamento extends Item {
                     ". Slots válidos: " + java.util.Arrays.toString(Slots.values()));
         }
         this.slot = slot;
+        System.out.println("Equipamento criado: " + this.toString() + " \n");
     }
 
     public int getAtaque() {

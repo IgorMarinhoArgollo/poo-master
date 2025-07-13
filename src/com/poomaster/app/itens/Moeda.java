@@ -6,6 +6,7 @@ public class Moeda extends Item implements Empilhavel {
     public Moeda(String nome, int quantidade) {
         super(nome, 1);
         this.quantidade = quantidade;
+        System.out.println("Moeda criada: " + this.toString() + " \n");
     }
 
     public int getQuantidade() {
