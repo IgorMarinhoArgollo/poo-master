@@ -13,6 +13,11 @@ public abstract class Item {
         return nome;
     }
 
+    public int getValor() {
+        return valor;
+    }
+
+
     public abstract boolean isEmpilhavel();
 
     @Override

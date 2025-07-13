@@ -59,13 +59,14 @@ public class Equipamento extends Item {
 
     @Override
     public String toString() {
-        return "Equipamento{" +
-                "nome='" + nome + '\'' +
-                ", ataque=" + ataque +
-                ", defesa=" + defesa +
-                ", slot='" + slot + '\'' +
-                ", valor=" + valor +
-                ", equipado=" + equipado +
-                '}';
+        return String.format(
+            "%s [ATQ: %d, DEF: %d, Slot: %s, Valor: %d, %s]",
+            getNome(),
+            getAtaque(),
+            getDefesa(),
+            getSlot(),
+            getValor(),
+            isEquipado() ? "Equipado" : "No inventário"
+        );
     }
 }

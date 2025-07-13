@@ -83,7 +83,7 @@ public abstract class Personagem extends Criaturas {
 
         if (inventario.size() < getCapacidade()) {
             inventario.add(item);
-            System.out.println(item.getNome() + " foi adicionado ao inventário.");
+            System.out.println(item.getNome() + " foi adicionado ao inventário de " + getNome() +". \n");
         } else {
             System.out.println("Inventário cheio! Não é possível adicionar " + item.getNome() + ".");
         }
@@ -134,6 +134,7 @@ public abstract class Personagem extends Criaturas {
                 System.out.println("- " + item);
             }
         }
+        System.out.println(" \n");
     }
 
     /////////////////////////////// EQUIPAMENTO
@@ -150,7 +151,7 @@ public abstract class Personagem extends Criaturas {
                 equipamentos.put(slot, equip);
                 equip.setEquipado(true);
                 inventario.remove(i);
-                System.out.println(equip.getNome() + " foi equipado.");
+                System.out.println(equip.getNome() + " foi equipado em "+ getNome() +". \n");
                 return;
             }
         }
@@ -174,9 +175,14 @@ public abstract class Personagem extends Criaturas {
         for (Slots slot : Slots.values()) {
             String slotValor = slot.getValor();
             Equipamento equip = equipamentos.get(slotValor);
-            System.out.println("- " + slot.getNomeFormatado() + ": " +
-                    (equip != null ? equip.getNome() : "Vazio"));
+            System.out.print("- " + slot.getNomeFormatado() + ": ");
+            if (equip != null) {
+                System.out.println(equip.toString());
+            } else {
+                System.out.println("Vazio");
+            }
         }
+        System.out.println();
     }
 
     ////////////////////////////////////// POÇÕES

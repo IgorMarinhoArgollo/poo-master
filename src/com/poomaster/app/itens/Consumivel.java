@@ -4,7 +4,7 @@ public class Consumivel extends Item implements Empilhavel {
     private int cura;
     private int quantidade;
 
-    public Consumivel(String nome, int valor, int cura, int quantidade) {
+    public Consumivel(String nome, int cura, int valor, int quantidade) {
         super(nome, valor);
         this.cura = cura;
         this.quantidade = quantidade;
@@ -41,11 +41,12 @@ public class Consumivel extends Item implements Empilhavel {
 
     @Override
     public String toString() {
-        return "Consumivel{" +
-                "nome='" + nome + '\'' +
-                ", valor=" + valor +
-                ", cura=" + cura +
-                ", quantidade=" + quantidade +
-                '}';
+        return String.format(
+            "%s [Cura: %d, Quantidade: %d, Valor: %d]",
+            getNome(),
+            getCura(),
+            getQuantidade(),
+            getValor()
+        );
     }
 }

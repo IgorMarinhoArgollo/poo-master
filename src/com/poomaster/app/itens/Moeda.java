@@ -3,8 +3,8 @@ package com.poomaster.app.itens;
 public class Moeda extends Item implements Empilhavel {
     private int quantidade;
 
-    public Moeda(String nome, int valor, int quantidade) {
-        super(nome, valor);
+    public Moeda(String nome, int quantidade) {
+        super(nome, 1);
         this.quantidade = quantidade;
     }
 
@@ -31,10 +31,10 @@ public class Moeda extends Item implements Empilhavel {
 
     @Override
     public String toString() {
-        return "Moeda{" +
-                "nome='" + nome + '\'' +
-                ", valor=" + valor +
-                ", quantidade=" + quantidade +
-                '}';
+        return String.format(
+            "%s [Quantidade: %d]",
+            getNome(),
+            getQuantidade()
+        );
     }
 }

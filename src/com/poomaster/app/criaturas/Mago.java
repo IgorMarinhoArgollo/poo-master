@@ -122,7 +122,7 @@ public class Mago extends Personagem {
                 equipamentos.put(slot, equip);
                 equip.setEquipado(true);
                 inventario.remove(i);
-                System.out.println(equip.getNome() + " foi equipado.");
+                System.out.println(equip.getNome() + " foi equipado em "+ getNome() +". \n");
                 return;
             }
         }
