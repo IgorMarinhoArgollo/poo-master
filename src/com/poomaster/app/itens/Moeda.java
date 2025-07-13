@@ -12,10 +12,6 @@ public class Moeda extends Item implements Empilhavel {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
     public void aumentarQuantidade(int q) {
         if (q < 0) {
             System.out.println("Não é possível adicionar uma quantidade negativa de moedas. \n");

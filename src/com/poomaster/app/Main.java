@@ -22,7 +22,7 @@ public class Main {
         Equipamento armaduraGuerreiro = new Equipamento("Armadura de Placas", 0, 6, 200, Slots.ARMADURA.getValor());
         Equipamento machado = new Equipamento("Machado de Guerra", 7, 0, 120, Slots.MAO_DIREITA.getValor());
         Moeda moedasGuerreiro = new Moeda("Moeda de Ouro", 10);
-        Consumivel pocaoPequena = new Consumivel("Poção Pequena", 5, 10, 1);
+        Consumivel pocaoPequena = new Consumivel("Poção Pequena", 5, 10, 2);
 
         // Instanciando itens do Mago
         Equipamento armaduraMago = new Equipamento("Manto Arcano", 0, 3, 120, Slots.ARMADURA.getValor());

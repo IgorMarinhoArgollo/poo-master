@@ -19,7 +19,6 @@ public class Equipamento extends Item {
         this.slot = slot;
     }
 
-
     public int getAtaque() {
         return ataque;
     }
@@ -36,20 +35,8 @@ public class Equipamento extends Item {
         return slot;
     }
 
-    public void setAtaque(int ataque) {
-        this.ataque = ataque;
-    }
-
-    public void setDefesa(int defesa) {
-        this.defesa = defesa;
-    }
-
     public void setEquipado(boolean equipado) {
         this.equipado = equipado;
-    }
-
-    public void setSlot(String slot) {
-        this.slot = slot;
     }
 
     @Override

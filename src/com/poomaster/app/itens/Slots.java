@@ -30,9 +30,4 @@ public enum Slots {
         }
         return false;
     }
-
-    @Override
-    public String toString() {
-        return nomeFormatado;
-    }
 }

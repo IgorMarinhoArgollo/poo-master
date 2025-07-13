@@ -14,16 +14,8 @@ public class Consumivel extends Item implements Empilhavel {
         return cura;
     }
 
-    public void setCura(int cura) {
-        this.cura = cura;
-    }
-
     public int getQuantidade() {
         return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
     }
 
     public void aumentarQuantidade(int q) {
