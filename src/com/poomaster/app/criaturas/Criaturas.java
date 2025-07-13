@@ -41,6 +41,16 @@ public abstract class Criaturas {
         return danoFinal;
     }
 
+    public int recebeDano(int amount, boolean magico) {
+        int danoFinal = calcularDanoRecebido(amount, magico);
+        setVidaAtual(getVidaAtual() - danoFinal);
+        System.out.println(nome + " sofreu " + danoFinal + " de dano. Vida atual: " + getVidaAtual() + "/" + getVidaMaxima());
+        if (!isAlive()) {
+            System.out.println(nome + " morreu!");
+        }
+        return danoFinal;
+    }
+
     // Para aplicar os modificadores
     protected int calcularDanoRecebido(int danoBase) {
         System.out.println(getNome() + " vai calcular o dano sofrido:");
@@ -49,6 +59,22 @@ public abstract class Criaturas {
         // Defesa padrão: Constituição
         int defesa = getConstituicao();
         System.out.println("- Defesa (Constituição): " + defesa);
+
+        int dano = danoBase - defesa;
+        System.out.println("- Dano após defesa: " + dano);
+
+        dano = Math.max(dano, DANO_MINIMO);
+        System.out.println("- Dano final aplicado (mínimo 1): " + dano + "\n");
+
+        return dano;
+    }
+
+    protected int calcularDanoRecebido(int danoBase, boolean magico) {
+        System.out.println(getNome() + " vai calcular o dano sofrido:");
+        System.out.println("- Dano base recebido: " + danoBase);
+
+        int defesa = magico ? getInteligencia() : getConstituicao();
+        System.out.println("- Defesa (" + (magico ? "Inteligência" : "Constituição") + "): " + defesa);
 
         int dano = danoBase - defesa;
         System.out.println("- Dano após defesa: " + dano);
@@ -97,7 +123,6 @@ public abstract class Criaturas {
         consumirBuffSeAtivo();
     }
 
-    // Para ataques físicos - pode ser sobrescrito para ataques mágicos
     protected int calcularDanoAtaque(Criaturas alvo, boolean critico) {
         int danoBase = calcularDanoBase();
         int bonusArma = calcularBonusArma();

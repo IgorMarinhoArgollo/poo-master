@@ -151,4 +151,37 @@ public class Mago extends Personagem {
         System.out.println("Item " + nomeItem + " não encontrado ou não é um equipamento.");
     }
 
+    @Override
+    public void ataque(Criaturas alvo) {
+        if (alvo == null) {
+            System.out.println(getNome() + " não pode atacar um alvo nulo!");
+            return;
+        }
+
+        System.out.println(getNome() + " tenta atacar " + alvo.getNome() + "!");
+
+        boolean acertou = tentarAcertar(alvo);
+
+        if (!acertou) {
+            System.out.println(getNome() + " errou o ataque! \n");
+            consumirBuffSeAtivo();
+            return;
+        }
+
+        boolean critico = verificarCritico();
+
+        if (critico) {
+            System.out.println("🎯 CRÍTICO!");
+        }
+
+        int danoTotal = calcularDanoAtaque(alvo, critico);
+
+        int danoSofrido = alvo.recebeDano(danoTotal, true);
+        System.out.println(getNome() + " causou " + danoSofrido + " de dano em " + alvo.getNome() + " \n");
+
+        if (!alvo.isAlive()) {
+            System.out.println("💀 " + alvo.getNome() + " foi derrotado por " + getNome() + "!");
+        }
+        consumirBuffSeAtivo();
+    }
 }

@@ -76,7 +76,7 @@ public class Main {
         merlin.listarEquipamentos();
 
         // Criando o inimigo Lobo com atributos intermediários
-        Criaturas lobo = new Criaturas("Lobo", 9, 20, 9, 9, 9, 9) {};
+        Criaturas lobo = new Criaturas("Lobo", 9, 20, 99, 9, 9, 9) {};
 
         // Exibindo informações do Lobo
         System.out.println("Inimigo criado:");
@@ -94,8 +94,12 @@ public class Main {
         // Lobo ataca Thorin
         lobo.ataque(thorin);
 
+        // Thorin (guerreiro) ataca o lobo
+        thorin.ataque(lobo);
 
-        // Loop de comandos (mantido do seu código)
+        // Merlin (mago) ataca o lobo
+        merlin.ataque(lobo);
+        
         Scanner scanner = new Scanner(System.in);
         String linha;
 

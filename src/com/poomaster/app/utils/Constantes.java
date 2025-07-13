@@ -1,7 +1,7 @@
 package com.poomaster.app.utils;
 
 public class Constantes {
-    private Constantes() {} // impede instanciação
+    private Constantes() {}
 
     public static final int EXP_POR_NIVEL = 100;
     public static final int MULTIPLICADOR_FORCA = 2;
