@@ -76,30 +76,48 @@ public class Main {
         merlin.listarEquipamentos();
 
         // Criando o inimigo Lobo com atributos intermediários
-        Criaturas lobo = new Criaturas("Lobo", 9, 20, 99, 9, 9, 9) {};
+        Criaturas aranha = new Criaturas("Aranha", 6, 7, 9, 8, 7, 5) {
+        };
 
+        Criaturas lobo = new Criaturas("Lobo", 40, 20, 99, 40, 40, 40) {
+        };
+
+        Criaturas esqueleto = new Criaturas("Esqueleto", 6, 7, 9, 8, 7, 5) {
+        };
+        
         // Exibindo informações do Lobo
-        System.out.println("Inimigo criado:");
+        System.out.println("Inimigos criados:");
         System.out.println(lobo + " \n" );
-
+        System.out.println(aranha + " \n");
+        
         // Acionando postura defensiva de Thorin
         thorin.posturaDefensiva();
 
         // Acionando miragem arcana de Merlin
         merlin.miragemArcana();
 
-        // Lobo ataca Merlin
-        lobo.ataque(merlin);
+        // Aranha ataca Merlin
+        aranha.ataque(merlin);
 
-        // Lobo ataca Thorin
-        lobo.ataque(thorin);
+        // Aranha ataca Thorin
+        aranha.ataque(thorin);
 
-        // Thorin (guerreiro) ataca o lobo
-        thorin.ataque(lobo);
-
-        // Merlin (mago) ataca o lobo
-        merlin.ataque(lobo);
+        // Thorin (guerreiro) ataca o Aranha
+        thorin.ataque(aranha);
         
+        // Merlin (mago) ataca o Aranha
+        merlin.ataque(aranha);
+
+        lobo.ataque(thorin);
+        
+        // testando o uso de poção e sua remoção ao usar
+        thorin.usarPocao("Poção Média");
+        thorin.usarPocao("Poção Pequena");
+        thorin.listarInventario();
+
+        // troca arma
+        thorin.equiparItem("Machado de Guerra");
+
         Scanner scanner = new Scanner(System.in);
         String linha;
 
