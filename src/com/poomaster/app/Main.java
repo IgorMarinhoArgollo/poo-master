@@ -145,6 +145,7 @@ public class Main {
                     System.out.println("Guerreiro " + nomeGuerreiro + " criado!");
                     System.out.println(novoGuerreiro + " \n");
                     break;
+
                 case "criar mago":
                     System.out.print("Insira o nome do mago: ");
                     String nomeMago = scanner.nextLine();
@@ -153,7 +154,8 @@ public class Main {
                     System.out.println("Mago " + nomeMago + " criado!");
                     System.out.println(novoMago + " \n");
                     break;
-                  case "criar inimigo":
+
+                case "criar inimigo":
                     System.out.print("Insira o nome do inimigo: ");
                     String nomeCriatura = scanner.nextLine();
 
@@ -168,6 +170,42 @@ public class Main {
                     inimigos.add(novaCriatura);
                     System.out.println(nomeCriatura + " criado!");
                     System.out.println(novaCriatura + " \n");
+                    break;
+
+                case "criar moeda":
+                    System.out.print("Nome da moeda: ");
+                    String nomeMoeda = scanner.nextLine();
+                    int quantidadeMoeda = lerInteiroPositivo(scanner, "Quantidade: ");
+                    Moeda novaMoeda = new Moeda(nomeMoeda, quantidadeMoeda);
+                    itens.add(novaMoeda);
+                    System.out.println("Moeda criada: " + novaMoeda + "\n");
+                    break;
+
+                case "criar consumivel":
+                    System.out.print("Nome do consumível: ");
+                    String nomeConsumivel = scanner.nextLine();
+                    int cura = lerInteiroPositivo(scanner, "Cura: ");
+                    int valorConsumivel = lerInteiroPositivo(scanner, "Valor: ");
+                    int quantidadeConsumivel = lerInteiroPositivo(scanner, "Quantidade: ");
+                    Consumivel novoConsumivel = new Consumivel(nomeConsumivel, cura, valorConsumivel, quantidadeConsumivel);
+                    itens.add(novoConsumivel);
+                    System.out.println("Consumível criado: " + novoConsumivel + "\n");
+                    break;
+
+                case "criar equipamento":
+                    System.out.print("Nome do equipamento: ");
+                    String nomeEquip = scanner.nextLine();
+                    int ataque = lerInteiroPositivo(scanner, "Ataque: ");
+                    int defesa = lerInteiroPositivo(scanner, "Defesa: ");
+                    int valorEquip = lerInteiroPositivo(scanner, "Valor: ");
+                    String slot = lerSlotValido(scanner, "Slot (ex: MAO_DIREITA, MAO_ESQUERDA, ARMADURA): ");
+                    try {
+                        Equipamento novoEquipamento = new Equipamento(nomeEquip, ataque, defesa, valorEquip, slot);
+                        itens.add(novoEquipamento);
+                        System.out.println("Equipamento criado: " + novoEquipamento + "\n");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Erro ao criar equipamento: " + e.getMessage() + "\n");
+                    }
                     break;
                 default:
                     System.out.println("Comando não reconhecido.");
@@ -184,7 +222,7 @@ public class Main {
             System.out.print(mensagem);
             try {
                 valor = Integer.parseInt(scanner.nextLine());
-                if (valor > 0) {
+                if (valor >= 0) {
                     break;
                 } else {
                     System.out.println("Digite um número inteiro positivo.");
@@ -194,5 +232,26 @@ public class Main {
             }
         }
         return valor;
+    }
+
+    private static String lerSlotValido(Scanner scanner, String mensagem) {
+        String slot;
+        while (true) {
+            System.out.print(mensagem);
+            slot = scanner.nextLine().trim();
+            boolean valido = false;
+            for (Slots s : Slots.values()) {
+                if (s.getValor().equalsIgnoreCase(slot)) {
+                    valido = true;
+                    break;
+                }
+            }
+            if (valido) {
+                break;
+            } else {
+                System.out.println("Slot inválido. Opções válidas: MAO_DIREITA, MAO_ESQUERDA, ARMADURA.");
+            }
+        }
+        return slot;
     }
 }
