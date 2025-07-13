@@ -15,8 +15,15 @@ public class Mago extends Personagem {
     /////////////////////////////////// ATAQUE
     @Override
     protected boolean tentarAcertar(Criaturas alvo) {
-        int ataqueMagico = Dado.roll20() + getInteligencia();
-        int defesaMagica = Dado.roll20() + Math.max(alvo.getInteligencia(), alvo.getPercepcao());
+        int rolagemAtaque = Dado.roll20();
+        int ataqueMagico = rolagemAtaque + getInteligencia();
+
+        int rolagemDefesa = Dado.roll20();
+        int defesaMagica = rolagemDefesa + Math.max(alvo.getInteligencia(), alvo.getPercepcao());
+
+        System.out.println(getNome() + " rolou " + rolagemAtaque + " + " + getInteligencia() + " (Inteligência) = " + ataqueMagico + " para atacar magicamente.\n");
+        System.out.println(alvo.getNome() + " rolou " + rolagemDefesa + " + " + Math.max(alvo.getInteligencia(), alvo.getPercepcao()) + " (Defesa Mágica) = " + defesaMagica + " para defender magicamente.\n");
+        System.out.println("Resultado: " + (ataqueMagico >= defesaMagica ? "Ataque mágico acertou!\n" : "Ataque mágico falhou!\n"));
 
         return ataqueMagico >= defesaMagica;
     }
@@ -83,15 +90,26 @@ public class Mago extends Personagem {
         double mitigacao = Math.sqrt(defesaEquipamentos * getInteligencia());
         int dano = danoBase - (int) mitigacao;
 
-        // Se o buff estiver ativo (Miragem Arcana), role o dado para verificar se atinge o mago ou as ilusões
+        System.out.println(getNome() + " vai calcular o dano sofrido:");
+        System.out.println("- Dano base: " + danoBase);
+        System.out.println("- Mitigação (√(armadura(" + defesaEquipamentos + ") * inteligência(" + getInteligencia()
+            + "))): " + (int) mitigacao);
+        
+        // Miragem Arcana
         if (getBuff() > 0) {
-            int roll = Dado.roll4();
-            // O ataque só atinge o Mago caso a rolagem dos dados seja 1
+          int danoParcial = danoBase - (int)mitigacao;
+          danoParcial = Math.max(danoParcial, 1);
+          System.out.println("- Total parcial: Dano base (" + danoBase + ") - Mitigação (" + (int)mitigacao + ") = " + (danoParcial) + " (mínimo de 1) \n");
+          int roll = Dado.roll4();
+            System.out.println(getNome() + " está com Miragem Arcana ativada!");
+            System.out.println(getNome() + " rola um dado para tentar trocar de lugar com uma ilusão...");
+            System.out.println("Resultado do dado: " + roll + " (precisa tirar um número maior que 1 para trocar de lugar com uma das ilusões).");
             if (roll != 1) {
-                System.out.println(getNome() + " está com Miragem Arcana ativada! Ataque atingiu uma ilusão.");
+                System.out.println(getNome() + " troca de lugar com uma ilusão e evita o ataque!\n");
+                System.out.println("Ataque atingiu uma ilusão.");
                 return 0;
             } else {
-                System.out.println(getNome() + " foi atingido diretamente apesar do espelhamento!");
+                System.out.println(getNome() + " não conseguiu trocar de lugar a tempo e foi atingido diretamente!\n");
             }
         }
 
@@ -99,7 +117,10 @@ public class Mago extends Personagem {
             System.out.println(getNome() + " mitigou " + (int) mitigacao + " de dano com armadura.");
         }
 
-        return Math.max(dano, DANO_MINIMO);
+        dano = Math.max(dano, DANO_MINIMO);
+        System.out.println("- Dano final aplicado (mínimo 1): " + dano + "\n");
+
+        return dano;
     }
 
     @Override

@@ -43,7 +43,20 @@ public abstract class Criaturas {
 
     // Para aplicar os modificadores
     protected int calcularDanoRecebido(int danoBase) {
-        return danoBase;
+        System.out.println(getNome() + " vai calcular o dano sofrido:");
+        System.out.println("- Dano base recebido: " + danoBase);
+
+        // Defesa padrão: Constituição
+        int defesa = getConstituicao();
+        System.out.println("- Defesa (Constituição): " + defesa);
+
+        int dano = danoBase - defesa;
+        System.out.println("- Dano após defesa: " + dano);
+
+        dano = Math.max(dano, DANO_MINIMO);
+        System.out.println("- Dano final aplicado (mínimo 1): " + dano + "\n");
+
+        return dano;
     }
 
     // Verifica se a criatura está morta
@@ -60,7 +73,9 @@ public abstract class Criaturas {
 
         System.out.println(getNome() + " tenta atacar " + alvo.getNome() + "!");
 
-        if (!tentarAcertar(alvo)) {
+        boolean ataqueAcertou = tentarAcertar(alvo);
+
+        if (!ataqueAcertou) {
             System.out.println(getNome() + " errou o ataque! \n");
             consumirBuffSeAtivo();
             return;
@@ -114,6 +129,9 @@ public abstract class Criaturas {
 
         int rolagemDefesa = Dado.roll20();
         int totalDefesa = rolagemDefesa + alvo.getAgilidade();
+
+        System.out.println(getNome() + " rolou " + rolagemAtaque + " + " + getDestreza() + " (Destreza) = " + totalAtaque + " para atacar.");
+        System.out.println(alvo.getNome() + " rolou " + rolagemDefesa + " + " + alvo.getAgilidade() + " (Agilidade) = " + totalDefesa + " para defender. \n");
 
         return totalAtaque >= totalDefesa;
     }

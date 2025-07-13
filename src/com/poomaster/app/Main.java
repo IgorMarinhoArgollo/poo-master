@@ -76,7 +76,7 @@ public class Main {
         merlin.listarEquipamentos();
 
         // Criando o inimigo Lobo com atributos intermediários
-        Criaturas lobo = new Criaturas("Lobo", 6, 5, 6, 3, 5, 7) {};
+        Criaturas lobo = new Criaturas("Lobo", 9, 20, 9, 9, 9, 9) {};
 
         // Exibindo informações do Lobo
         System.out.println("Inimigo criado:");

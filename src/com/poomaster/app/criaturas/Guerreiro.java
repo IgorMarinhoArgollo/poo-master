@@ -59,7 +59,14 @@ public class Guerreiro extends Personagem {
         double mitigacao = Math.sqrt(defesaEquipamentos * getConstituicao());
         int dano = danoBase - (int) mitigacao;
 
+        System.out.println(getNome() + " vai calcular o dano sofrido:");
+        System.out.println("- Dano base: " + danoBase);
+        System.out.println("- Mitigação (√(armadura(" + defesaEquipamentos + ") * constituição(" + getConstituicao() + "))): " + (int) mitigacao);
+
         if (getBuff() > 0) {
+          int danoParcial = danoBase - (int)mitigacao;
+          danoParcial = Math.max(danoParcial, 1);
+          System.out.println("- Total parcial: Dano base (" + danoBase + ") - Mitigação (" + (int)mitigacao + ") = " + danoParcial + " (mínimo de 1) \n");
             System.out.println(getNome() + " está em postura defensiva! Dano reduzido pela metade.");
             dano /= REDUCAO_DANO_DEFENSIVO;
         }
@@ -68,6 +75,9 @@ public class Guerreiro extends Personagem {
             System.out.println(getNome() + " mitigou " + (int) mitigacao + " de dano com armadura.");
         }
 
-        return Math.max(dano, DANO_MINIMO);
+        dano = Math.max(dano, DANO_MINIMO);
+        System.out.println("- Dano final aplicado (mínimo 1): " + dano + "\n");
+
+        return dano;
     }
 }
