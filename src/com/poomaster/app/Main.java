@@ -1,5 +1,6 @@
 package com.poomaster.app;
 
+import com.poomaster.app.criaturas.Criaturas;
 import com.poomaster.app.criaturas.Guerreiro;
 import com.poomaster.app.criaturas.Mago;
 import com.poomaster.app.itens.Equipamento;
@@ -73,6 +74,26 @@ public class Main {
         // Listando equipamentos equipados
         thorin.listarEquipamentos();
         merlin.listarEquipamentos();
+
+        // Criando o inimigo Lobo com atributos intermediários
+        Criaturas lobo = new Criaturas("Lobo", 6, 5, 6, 3, 5, 7) {};
+
+        // Exibindo informações do Lobo
+        System.out.println("Inimigo criado:");
+        System.out.println(lobo + " \n" );
+
+        // Acionando postura defensiva de Thorin
+        thorin.posturaDefensiva();
+
+        // Acionando miragem arcana de Merlin
+        merlin.miragemArcana();
+
+        // Lobo ataca Merlin
+        lobo.ataque(merlin);
+
+        // Lobo ataca Thorin
+        lobo.ataque(thorin);
+
 
         // Loop de comandos (mantido do seu código)
         Scanner scanner = new Scanner(System.in);

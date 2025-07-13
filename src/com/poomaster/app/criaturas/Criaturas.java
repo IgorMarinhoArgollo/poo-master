@@ -28,7 +28,7 @@ public abstract class Criaturas {
     }
 
     //////////////////// MÉTODOS PARA RECEBER DANO
-    public void recebeDano(int amount) {
+    public int recebeDano(int amount) {
         int danoFinal = calcularDanoRecebido(amount);
 
         setVidaAtual(getVidaAtual() - danoFinal);
@@ -38,6 +38,7 @@ public abstract class Criaturas {
         if (!isAlive()) {
             System.out.println(nome + " morreu!");
         }
+        return danoFinal;
     }
 
     // Para aplicar os modificadores
@@ -60,7 +61,7 @@ public abstract class Criaturas {
         System.out.println(getNome() + " tenta atacar " + alvo.getNome() + "!");
 
         if (!tentarAcertar(alvo)) {
-            System.out.println(getNome() + " errou o ataque!");
+            System.out.println(getNome() + " errou o ataque! \n");
             consumirBuffSeAtivo();
             return;
         }
@@ -72,8 +73,8 @@ public abstract class Criaturas {
 
         int danoTotal = calcularDanoAtaque(alvo, critico);
 
-        alvo.recebeDano(danoTotal);
-        System.out.println(getNome() + " causou " + danoTotal + " de dano em " + alvo.getNome());
+        int danoSofrido = alvo.recebeDano(danoTotal);
+        System.out.println(getNome() + " causou " + danoSofrido + " de dano em " + alvo.getNome() + " \n");
 
         if (!alvo.isAlive()) {
             System.out.println("💀 " + alvo.getNome() + " foi derrotado por " + getNome() + "!");
@@ -192,5 +193,21 @@ public abstract class Criaturas {
 
     public void setAgilidade(int agilidade) {
         this.agilidade = agilidade;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "%s [Vida: %d/%d, Força: %d, Destreza: %d, Constituição: %d, Inteligência: %d, Percepção: %d, Agilidade: %d]",
+            getNome(),
+            getVidaAtual(),
+            getVidaMaxima(),
+            getForca(),
+            getDestreza(),
+            getConstituicao(),
+            getInteligencia(),
+            getPercepcao(),
+            getAgilidade()
+        );
     }
 }

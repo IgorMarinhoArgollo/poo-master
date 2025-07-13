@@ -27,7 +27,7 @@ public class Guerreiro extends Personagem {
     //////////////////////////////// HABILIDADE
     public void posturaDefensiva() {
         setBuff(DURACAO_POSTURA_DEFENSIVA);
-        System.out.println(getNome() + " assumiu postura defensiva! Receberá metade do dano por turno.");
+        System.out.println(getNome() + " assumiu postura defensiva! Receberá metade do dano por turno. \n");
     }
 
     @Override

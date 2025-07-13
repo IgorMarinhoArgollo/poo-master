@@ -51,7 +51,7 @@ public class Mago extends Personagem {
     //////////////////////////////// HABILIDADE
     public void miragemArcana() {
         setBuff(DURACAO_MIRAGEM_ARCANA);
-        System.out.println(getNome() + " conjurou a Miragem arcana! Agora existem mais 3 ilusões para confundir o inimigo.");
+        System.out.println(getNome() + " conjurou a Miragem arcana! Agora existem mais 3 ilusões para confundir o inimigo. \n");
     }
 
     @Override
