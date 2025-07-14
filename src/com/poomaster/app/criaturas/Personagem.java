@@ -9,6 +9,9 @@ import java.util.Map;
 
 import static com.poomaster.app.utils.Constantes.*;
 
+// Classe abstrata que representa personagens jogáveis (herda de Criaturas).
+// Adiciona inventário, equipamentos, experiência, nível e lógica de progressão.
+// Subclasses especializam atributos e habilidades (ex: Guerreiro, Mago).
 public abstract class Personagem extends Criaturas {
     protected final ArrayList<Item> inventario;
     protected int capacidade;
@@ -25,10 +28,11 @@ public abstract class Personagem extends Criaturas {
         this.nivel = 1;
         this.experiencia = 0;
         this.buff = 0;
-        inicializarSlots();
+        inicializarSlots(); // Inicializa os slots de equipamento disponíveis
     }
 
     //////////////////////////////////// EXPERIÊNCIA E NÍVEL
+    // Ganha experiência e verifica se deve subir de nível automaticamente.
     public void ganharExperiencia(int quantidade) {
         if (quantidade < 0) {
             throw new IllegalArgumentException("Quantidade de experiência não pode ser negativa");
@@ -41,6 +45,7 @@ public abstract class Personagem extends Criaturas {
     }
 
     private void subirNivel() {
+        // Sobe o nível do personagem, aplicando bônus de atributos e atualizando vida/capacidade.
         setNivel(getNivel() + 1);
         aplicarBonusAtributos();
         atualizarVidaMaxima();

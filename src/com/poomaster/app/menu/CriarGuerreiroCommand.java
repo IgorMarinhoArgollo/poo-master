@@ -5,6 +5,9 @@ import com.poomaster.app.utils.LeitorUtils;
 import java.util.List;
 import java.util.Scanner;
 
+// Comando do menu responsável por criar um novo Guerreiro.
+// Solicita o nome ao usuário, instancia o personagem e adiciona à lista de guerreiros.
+// Exibe confirmação e detalhes do novo guerreiro.
 public class CriarGuerreiroCommand implements Comando {
     private final Scanner scanner;
     private final List<Guerreiro> guerreiros;

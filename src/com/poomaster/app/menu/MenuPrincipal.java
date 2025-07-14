@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+// Classe responsável pelo menu principal do jogo e roteamento dos comandos.
+// Mantém um mapa de comandos disponíveis e executa conforme entrada do usuário.
+// Cada comando encapsula uma ação do sistema (criar personagem, iniciar batalha, etc).
 public class MenuPrincipal {
     private final Map<String, Comando> comandos = new HashMap<>();
     private final Scanner scanner;
@@ -22,6 +25,7 @@ public class MenuPrincipal {
         List<Item> itens
     ) {
         this.scanner = scanner;
+        // Mapeia cada comando de texto para sua respectiva classe de ação
         comandos.put("criar guerreiro", new CriarGuerreiroCommand(scanner, guerreiros));
         comandos.put("criar mago", new CriarMagoCommand(scanner, magos));
         comandos.put("criar inimigo", new CriarInimigoCommand(scanner, inimigos));
@@ -63,6 +67,7 @@ public class MenuPrincipal {
     }
 
     public void executar() {
+        // Loop principal de execução do menu, processando comandos do usuário
         String linha;
         while (true) {
             linha = scanner.nextLine();

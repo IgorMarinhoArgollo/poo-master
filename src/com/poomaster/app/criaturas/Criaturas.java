@@ -4,6 +4,9 @@ import com.poomaster.app.utils.Dado;
 import static com.poomaster.app.utils.Constantes.*;
 
 
+// Classe base abstrata para todas as criaturas do jogo (personagens e inimigos).
+// Define atributos comuns e métodos fundamentais de combate, dano e vida.
+// Subclasses devem sobrescrever métodos para lógica específica (ex: cálculo de dano, buffs).
 public abstract class Criaturas {
     protected final String nome;
     protected int vidaMaxima;
@@ -28,6 +31,7 @@ public abstract class Criaturas {
     }
 
     //////////////////// MÉTODOS PARA RECEBER DANO
+    // Aplica dano físico considerando defesa. Pode ser sobrescrito para lógica especial.
     public int recebeDano(int amount) {
         int danoFinal = calcularDanoRecebido(amount);
 
@@ -42,6 +46,7 @@ public abstract class Criaturas {
     }
 
     public int recebeDano(int amount, boolean magico) {
+        // Aplica dano mágico considerando defesa. Pode ser sobrescrito para lógica especial.
         int danoFinal = calcularDanoRecebido(amount, magico);
         setVidaAtual(getVidaAtual() - danoFinal);
         System.out.println(nome + " sofreu " + danoFinal + " de dano. Vida atual: " + getVidaAtual() + "/" + getVidaMaxima());
@@ -92,6 +97,7 @@ public abstract class Criaturas {
 
     ////////////////////////////// MÉTODO DE ATAQUE
     public void ataque(Criaturas alvo) {
+        // Realiza ataque contra outro alvo, com rolagem de acerto, crítico e cálculo de dano.
         if (alvo == null) {
             System.out.println(getNome() + " não pode atacar um alvo nulo!");
             return;
@@ -124,6 +130,7 @@ public abstract class Criaturas {
     }
 
     protected int calcularDanoAtaque(Criaturas alvo, boolean critico) {
+        // Calcula o dano total do ataque, considerando bônus, defesa e crítico.
         int danoBase = calcularDanoBase();
         int bonusArma = calcularBonusArma();
         int defesa = alvo.getConstituicao();
@@ -139,11 +146,13 @@ public abstract class Criaturas {
     }
 
     protected int calcularDanoBase() {
+        // Calcula o dano base do ataque físico. Subclasses podem sobrescrever para ataques mágicos.
         return getForca() * MULTIPLICADOR_FORCA;
     }
 
     // Para aplicar o bonus de arma (sobrescrita)
     protected int calcularBonusArma() {
+        // Retorna bônus de arma. Subclasses sobrescrevem para lógica de equipamentos.
         return 0;
     }
 

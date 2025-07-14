@@ -1,5 +1,8 @@
 package com.poomaster.app.itens;
 
+// Classe que representa um item consumível (ex: poção).
+// Pode ser empilhado no inventário e usado para curar vida.
+// Implementa a interface Empilhavel.
 public class Consumivel extends Item implements Empilhavel {
     private final int cura;
     private int quantidade;

@@ -5,6 +5,9 @@ import com.poomaster.app.utils.LeitorUtils;
 import java.util.List;
 import java.util.Scanner;
 
+// Comando do menu responsável por criar um novo inimigo.
+// Solicita atributos ao usuário, instancia a criatura e adiciona à lista de inimigos.
+// Exibe confirmação e detalhes do novo inimigo.
 public class CriarInimigoCommand implements Comando {
     private final Scanner scanner;
     private final List<Criaturas> inimigos;

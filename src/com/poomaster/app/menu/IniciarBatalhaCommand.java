@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+// Comando responsável por iniciar e gerenciar o fluxo de batalha entre aliados e inimigos.
+// Organiza os turnos, processa ações dos personagens e inimigos até o fim do combate.
 public class IniciarBatalhaCommand implements Comando {
     private final Scanner scanner;
     private final List<Guerreiro> guerreiros;
@@ -91,6 +93,7 @@ public class IniciarBatalhaCommand implements Comando {
                     System.out.println("\nTurno de " + personagem.getNome() + "!");
                     boolean acaoValida = false;
                     while (!acaoValida) {
+                        // Exibe opções de ação para o personagem no turno
                         System.out.println("Escolha uma ação: \n[1] Atacar  \n[2] Usar habilidade  \n[3] Usar consumível");
                         String acao = LeitorUtils.lerEntradaOuVoltar(scanner, "Digite a opção desejada: ");
                         if (acao == null) {

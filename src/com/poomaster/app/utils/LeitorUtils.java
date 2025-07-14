@@ -4,6 +4,9 @@ import com.poomaster.app.itens.Slots;
 
 import java.util.Scanner;
 
+// Classe utilitária para centralizar métodos de leitura e validação de entrada do usuário.
+// Permite ler inteiros positivos, slots válidos e strings, sempre aceitando o comando 'voltar'.
+// Facilita o uso consistente dessas operações em todo o sistema.
 public class LeitorUtils {
 
     public static Integer lerInteiroPositivoOuVoltar(Scanner scanner, String mensagem) {
