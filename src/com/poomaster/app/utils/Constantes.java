@@ -1,5 +1,8 @@
 package com.poomaster.app.utils;
 
+// Classe de constantes globais do sistema.
+// Centraliza todos os valores fixos usados nas regras do jogo (ex: multiplicadores, bônus, limites, duração de efeitos).
+// Facilita ajustes, balanceamento e manutenção do código.
 public class Constantes {
     private Constantes() {}
 

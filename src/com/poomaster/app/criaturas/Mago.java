@@ -7,6 +7,9 @@ import com.poomaster.app.utils.Dado;
 
 import static com.poomaster.app.utils.Constantes.*;
 
+// Classe que representa o personagem Mago, especializado em inteligência e percepção.
+// Possui ataque mágico, defesa baseada em inteligência e habilidade especial de miragem arcana.
+// Não pode equipar itens na mão esquerda.
 public class Mago extends Personagem {
     public Mago(String nome) {
         super(nome, 3, 4, 6, 8, 7, 5);
@@ -15,6 +18,7 @@ public class Mago extends Personagem {
     /////////////////////////////////// ATAQUE
     @Override
     protected boolean tentarAcertar(Criaturas alvo) {
+        // Realiza ataque mágico, comparando inteligência do mago com defesa mágica do alvo.
         int rolagemAtaque = Dado.roll20();
         int ataqueMagico = rolagemAtaque + getInteligencia();
 
@@ -30,11 +34,13 @@ public class Mago extends Personagem {
 
     @Override
     protected int calcularDanoBase() {
+        // Calcula o dano base do ataque mágico, baseado em inteligência.
         return getInteligencia() * MULTIPLICADOR_INTELIGENCIA;
     }
 
     @Override
     protected int calcularBonusArma() {
+        // Retorna bônus de ataque do equipamento na mão direita (magos só usam uma mão).
         Equipamento maoDireita = getMaoDireita();
         return (maoDireita != null) ? maoDireita.getAtaque() : 0;
     }

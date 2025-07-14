@@ -7,6 +7,9 @@ import com.poomaster.app.utils.LeitorUtils;
 import java.util.List;
 import java.util.Scanner;
 
+// Comando do menu responsável por criar um novo equipamento.
+// Solicita nome, ataque, defesa, valor e slot ao usuário, instancia o equipamento e adiciona à lista de itens.
+// Exibe confirmação e detalhes do novo equipamento.
 public class CriarEquipamentoCommand implements Comando {
     private final Scanner scanner;
     private final List<Item> itens;

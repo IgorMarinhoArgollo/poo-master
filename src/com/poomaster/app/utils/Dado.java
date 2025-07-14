@@ -2,6 +2,9 @@ package com.poomaster.app.utils;
 
 import java.util.Random;
 
+// Classe utilitária para rolagem de dados de diferentes faces.
+// Centraliza a aleatoriedade do sistema, permitindo rolar dados de 3, 4, 6, 8, 10, 12, 20 e 100 faces.
+// Usada em testes de ataque, defesa, habilidades e efeitos aleatórios do jogo.
 public abstract class Dado {
 
     private static final Random random = new Random();

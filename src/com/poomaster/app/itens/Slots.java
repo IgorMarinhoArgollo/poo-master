@@ -1,5 +1,8 @@
 package com.poomaster.app.itens;
 
+// Enumeração dos slots de equipamento disponíveis para personagens.
+// Define valores e métodos auxiliares para validação e formatação de slots.
+// Exemplo: MAO_DIREITA, MAO_ESQUERDA, ARMADURA.
 public enum Slots {
     MAO_DIREITA("mao_direita", "Mão Direita"),
     MAO_ESQUERDA("mao_esquerda", "Mão Esquerda"),

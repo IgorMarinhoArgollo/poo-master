@@ -7,6 +7,9 @@ import com.poomaster.app.itens.*;
 
 import java.util.List;
 
+// Classe utilitária para montar um cenário de teste completo do jogo.
+// Instancia personagens, itens e inimigos, adiciona itens ao inventário e demonstra funcionalidades como equipar, usar poções e atacar.
+// Facilita testes e demonstração do sistema.
 public class CenarioTeste {
     public static void carregar(
         List<Guerreiro> guerreiros,

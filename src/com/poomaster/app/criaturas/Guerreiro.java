@@ -3,6 +3,8 @@ import com.poomaster.app.utils.Dado;
 
 import static com.poomaster.app.utils.Constantes.*;
 
+// Classe que representa o personagem Guerreiro, especializado em força, constituição e defesa.
+// Possui habilidade de postura defensiva e lógica própria de mitigação de dano.
 public class Guerreiro extends Personagem {
 
     public Guerreiro(String nome) {
@@ -12,6 +14,7 @@ public class Guerreiro extends Personagem {
     /////////////////////////////////// ATAQUE
     @Override
     protected int calcularBonusArma() {
+        // Calcula o bônus de ataque somando armas equipadas nas mãos e rolagem de dado.
         int somaAtaqueEquip = 0;
 
         if (getMaoDireita() != null) {
@@ -26,12 +29,14 @@ public class Guerreiro extends Personagem {
 
     //////////////////////////////// HABILIDADE
     public void posturaDefensiva() {
+        // Ativa postura defensiva, reduzindo o dano recebido por alguns turnos.
         setBuff(DURACAO_POSTURA_DEFENSIVA);
         System.out.println(getNome() + " assumiu postura defensiva! Receberá metade do dano por turno. \n");
     }
 
     @Override
     protected void consumirBuffSeAtivo() {
+        // Consome ou mantém o buff de postura defensiva a cada turno.
         if (getBuff() > 0) {
             setBuff(getBuff() - 1);
             if (getBuff() == 0) {
@@ -45,6 +50,7 @@ public class Guerreiro extends Personagem {
     /////////////////////// ATRIBUTOS POR NÍVEL
     @Override
     protected void aplicarBonusAtributos() {
+        // Aplica bônus de atributos ao subir de nível (foco em força, constituição e destreza).
         setForca(getForca() + BONUS_FORCA_NIVEL_GUERREIRO);
         setConstituicao(getConstituicao() + BONUS_CONSTITUICAO_NIVEL_GUERREIRO);
         setDestreza(getDestreza() + BONUS_DESTREZA_NIVEL_GUERREIRO);
@@ -53,6 +59,8 @@ public class Guerreiro extends Personagem {
     /////////////////////////////// AUXILIARES
     @Override
     protected int calcularDanoRecebido(int danoBase) {
+        // Calcula o dano recebido considerando armadura, constituição e postura defensiva.
+        // Mitigação desacelerada por raiz quadrada.
         int defesaEquipamentos = getDefesaTotalEquipamentos();
 
         // Mitiga dano com base em √(armadura + constituição), garantindo crescimento desacelerado.

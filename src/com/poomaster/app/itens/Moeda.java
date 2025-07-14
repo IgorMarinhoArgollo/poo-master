@@ -1,5 +1,8 @@
 package com.poomaster.app.itens;
 
+// Classe que representa uma moeda do jogo.
+// Item empilhável usado como dinheiro, pode ser agrupado no inventário.
+// Implementa a interface Empilhavel.
 public class Moeda extends Item implements Empilhavel {
     private int quantidade;
 

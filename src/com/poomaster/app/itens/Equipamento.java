@@ -1,5 +1,7 @@
 package com.poomaster.app.itens;
 
+// Classe que representa um equipamento (arma, armadura, escudo, etc).
+// Equipamentos podem ser equipados em slots específicos e fornecem ataque/defesa.
 public class Equipamento extends Item {
     private final int ataque;
     private final int defesa;
@@ -12,6 +14,7 @@ public class Equipamento extends Item {
         this.defesa = defesa;
         this.equipado = false;
 
+        // Valida se o slot informado é permitido (mão direita, esquerda ou armadura)
         if (!Slots.isValido(slot)) {
             throw new IllegalArgumentException("Slot inválido: " + slot +
                     ". Slots válidos: " + java.util.Arrays.toString(Slots.values()));
